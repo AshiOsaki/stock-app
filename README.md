@@ -1,5 +1,2 @@
-# Stock App
-
-This is a private stock app
-
-
+# stock-app
+This repo will contains the code for the stock app.
