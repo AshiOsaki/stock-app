@@ -17,8 +17,17 @@
                 <h2 class="mdl-card__title-text">Buy</h2>
             </div>
             <div class="mdl-card__supporting-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Aenan convallis.
+                <button id="demo-menu-lower-left"
+                        class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="material-icons">more_vert</i>
+                </button>
+
+                <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+                    for="demo-menu-lower-left">
+                    <li class="mdl-menu__item">Some Action</li>
+                    <li class="mdl-menu__item">Another Action</li>
+                    <li disabled class="mdl-menu__item">Disabled Action</li>
+                </ul>
             </div>
         </div>
         <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square">
@@ -33,6 +42,7 @@
         <div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col graph-container">
             <div class="mdl-card__actions card-header">
                 <h2 class="mdl-card__title-text">Stock Behaviour</h2>
+                <div line-chart-dir></div>
             </div>
         </div>
     </div>

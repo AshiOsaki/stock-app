@@ -5,7 +5,7 @@
 .card-square {
     padding: 16px 32px;
     align-items: stretch;
-    display: flex;
+    min-height: 300px !important;
 }
 
 .card-header {
