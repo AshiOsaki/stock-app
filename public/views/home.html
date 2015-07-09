@@ -1,5 +1,39 @@
-<div class="jumbotron text-center">
-	<h1>Home Page 4 Life</h1>
-
-	<p>{{ tagline }}</p>
-</div>
+<main class="mdl-layout__content mdl-color--grey-100">
+    <div class="mdl-grid demo-content">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-cell mdl-cell--12-col search-label">
+            <label class="mdl-button mdl-js-button mdl-button--icon" id="searchLabel" for="searchStockName">
+                <i class="material-icons">search</i>
+            </label>
+            <div class="mdl-tooltip" for="searchLabel">
+                <strong>Search for Stock...</strong>
+            </div>
+            <div class="mdl-textfield__expandable-holder">
+                <input class="mdl-textfield__input" type="text" id="searchStockName" />
+                <label class="mdl-textfield__label" for="searchStockName">Search for stock ...</label>
+            </div>
+        </div>
+        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square">
+            <div class="mdl-card__actions card-header">
+                <h2 class="mdl-card__title-text">Buy</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Aenan convallis.
+            </div>
+        </div>
+        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square">
+            <div class="mdl-card__actions card-header">
+                <h2 class="mdl-card__title-text">Sell</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Aenan convallis.
+            </div>
+        </div>
+        <div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col graph-container">
+            <div class="mdl-card__actions card-header">
+                <h2 class="mdl-card__title-text">Stock Behaviour</h2>
+            </div>
+        </div>
+    </div>
+</main>

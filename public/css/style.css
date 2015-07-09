@@ -1,1 +1,25 @@
-body { padding-top:30px; }
+.header-background {
+    background-color: #C2185B;
+}
+
+.card-square {
+    padding: 16px 32px;
+    align-items: stretch;
+    display: flex;
+}
+
+.card-header {
+    color: #EF3C79;
+    font-weight: bold;
+}
+
+.graph-container {
+    min-height: 300px;
+    padding: 16px 32px;
+    align-items: stretch;
+    display: flex;
+}
+
+.search-label {
+    margin-left: 5% !important;
+}
