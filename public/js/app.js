@@ -1,1 +1,1 @@
-angular.module('sampleApp', ['ngRoute', 'appRoutes', 'MainCtrl', 'stockAppHttpSVMD', 'stockApp_LineChartDRMD']);
+angular.module('sampleApp', ['ngRoute', 'appRoutes', 'stockAppHttpSVMD', 'stockAppHomeCtrlMD', 'stockApp_LineChartDRMD']);

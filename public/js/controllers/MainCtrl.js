@@ -1,5 +1,11 @@
-angular.module('MainCtrl', []).controller('MainController', function($scope) {
+angular.module('stockAppHomeCtrlMD', []).
+  controller('stockAppHomeCtrl', [
+    '$scope',
+    'CoreHttpSV',
+    function ($scope, CoreHttpSV) {
 
-	$scope.tagline = 'To the moon and back!';	
+    console.log("Core sErvice : ", CoreHttpSV)
 
-});
+      $scope.tagline = 'To the moon and back!';
+
+    }]);
