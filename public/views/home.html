@@ -1,33 +1,73 @@
 <main class="mdl-layout__content mdl-color--grey-100">
     <div class="mdl-grid demo-content">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-cell mdl-cell--12-col search-label">
-            <label class="mdl-button mdl-js-button mdl-button--icon" id="searchLabel" for="searchStockName">
-                <i class="material-icons">search</i>
-            </label>
-            <div class="mdl-tooltip" for="searchLabel">
-                <strong>Search for Stock...</strong>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mdl-textfield mdl-js-textfield">
+                        <input class="mdl-textfield__input" type="text" id="searchStockName"/>
+                        <label class="mdl-textfield__label" for="searchStockName">Search for stock...</label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mdl-textfield mdl-js-textfield get-quote-btn">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                            Get Quote
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="mdl-textfield__expandable-holder">
-                <input class="mdl-textfield__input" type="text" id="searchStockName" />
-                <label class="mdl-textfield__label" for="searchStockName">Search for stock ...</label>
-            </div>
+            <!--<ul class="mdl-menu mdl-js-menu"-->
+            <!--for="searchStockName">-->
+            <!--<li class="mdl-menu__item" ng-repeat="stock in dummySearchElement">stock</li>-->
+            <!--</ul>-->
         </div>
         <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square">
             <div class="mdl-card__actions card-header">
                 <h2 class="mdl-card__title-text">Buy</h2>
             </div>
             <div class="mdl-card__supporting-text">
-                <button id="demo-menu-lower-left"
-                        class="mdl-button mdl-js-button mdl-button--icon">
-                    <i class="material-icons">more_vert</i>
-                </button>
+                <div class="row">
+                    <div class="col-md-2 right-border">
+                        <div class="mdl-cell mdl-cell--2-col">
+                            <button id="demo-menu-lower-left"
+                                    class="mdl-button mdl-js-button mdl-button--icon">
+                                <i class="material-icons">more_vert</i>
+                            </button>
+                        </div>
+                    </div>
 
-                <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
-                    for="demo-menu-lower-left">
-                    <li class="mdl-menu__item">Some Action</li>
-                    <li class="mdl-menu__item">Another Action</li>
-                    <li disabled class="mdl-menu__item">Disabled Action</li>
-                </ul>
+                    <ul class="mdl-menu mdl-menu--bottom mdl-js-menu mdl-js-ripple-effect"
+                        for="demo-menu-lower-left">
+                        <li class="mdl-menu__item">Some Action</li>
+                        <li class="mdl-menu__item">Another Action</li>
+                        <li disabled class="mdl-menu__item">Disabled Action</li>
+                    </ul>
+                    <div class="col-md-6 right-border">
+                        <div class="row operator-section">
+                            <div class="col-md-3">
+                                <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                    >
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                    <
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                                    =
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" id="buyCardValueInpt"/>
+                            <label class="mdl-textfield__label" for="buyCardValueInpt">Value...</label>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square">

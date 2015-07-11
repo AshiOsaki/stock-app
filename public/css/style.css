@@ -23,3 +23,16 @@
 .search-label {
     margin-left: 5% !important;
 }
+
+.get-quote-btn{
+    margin-top: 30px !important;
+}
+
+.right-border{
+    border-right: 1px solid #EF3C79;
+    min-height: 50px;
+}
+
+.operator-section{
+    margin-top: 3%;
+}
