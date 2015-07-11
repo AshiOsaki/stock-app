@@ -36,3 +36,13 @@
 .operator-section{
     margin-top: 3%;
 }
+
+.list-special{
+    margin-top: 2%;
+}
+.list-special .list-group-item{
+    border: 0px !important;
+    border-bottom: 1px  solid #b3d4fc !important;
+    border-radius: 0px !important;
+    margin-top: 1px
+}
