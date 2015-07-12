@@ -52,3 +52,7 @@
     max-height: 150px;
     overflow-x: hidden;
 }
+
+.card-footer{
+    margin-top: 20%;
+}
