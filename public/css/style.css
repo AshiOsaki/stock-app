@@ -29,8 +29,8 @@
 }
 
 .right-border{
-    border-right: 1px solid #EF3C79;
-    min-height: 50px;
+    /*border-right: 1px solid #EF3C79;*/
+    /*min-height: 50px;*/
 }
 
 .operator-section{
@@ -45,4 +45,10 @@
     border-bottom: 1px  solid #b3d4fc !important;
     border-radius: 0px !important;
     margin-top: 1px
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 150px;
+    overflow-x: hidden;
 }
