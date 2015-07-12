@@ -27,6 +27,9 @@ angular.module('stockApp_LineChartDRMD', [])
             tooltip: {
               valueSuffix: '$'
             },
+            credits:{
+              enabled: false
+            },
             plotOptions: {
               line: {dataLabels: {
                 enabled: true,

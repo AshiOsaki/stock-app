@@ -4,24 +4,32 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="mdl-textfield mdl-js-textfield">
-                        <input class="mdl-textfield__input" type="text" id="searchStockName"/>
-                        <label class="mdl-textfield__label" for="searchStockName">Search for stock...</label>
+                        <input class="mdl-textfield__input" type="text" id="searchStockName"
+                               ng-model="selectedStockName" placeholder="Search for stock..."
+                                ng-change="createSearchList()"/>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="mdl-textfield mdl-js-textfield get-quote-btn">
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="getQuote()">
                             Get Quote
                         </button>
                     </div>
                 </div>
             </div>
-            <!--<ul class="mdl-menu mdl-js-menu"-->
-            <!--for="searchStockName">-->
-            <!--<li class="mdl-menu__item" ng-repeat="stock in dummySearchElement">stock</li>-->
-            <!--</ul>-->
         </div>
-        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square">
+
+        <div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col graph-container" ng-hide="hideSearchList">
+            <div class="mdl-card__actions card-header">
+                <h2 class="mdl-card__title-text">Search Results</h2>
+                <div class="list-group list-special">
+                    <a href="#" class="list-group-item" ng-repeat="stockName in searchListArray"
+                       ng-click="setStockName()">{{stockName}}</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square" ng-show="hideSearchList">
             <div class="mdl-card__actions card-header">
                 <h2 class="mdl-card__title-text">Buy</h2>
             </div>
@@ -70,7 +78,7 @@
                 </div>
             </div>
         </div>
-        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square">
+        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square" ng-show="hideSearchList">
             <div class="mdl-card__actions card-header">
                 <h2 class="mdl-card__title-text">Sell</h2>
             </div>
@@ -79,7 +87,7 @@
                 Aenan convallis.
             </div>
         </div>
-        <div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col graph-container">
+        <div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col graph-container" ng-show="hideSearchList">
             <div class="mdl-card__actions card-header">
                 <h2 class="mdl-card__title-text">Stock Behaviour</h2>
                 <div line-chart-dir></div>
