@@ -5,17 +5,18 @@ var Schema = mongoose.Schema;
 
 
 var DataSchema = new Schema({
-  Date: { type: Date, default: '' },
-  Price: { type: Number, default: '' },
-  Volume: { type: Number, default: ''},
-  Value : {type: Number, default: ''},
-  PE : {type: String, default: ''},
-  PBV : {type: String, default: ''},
-  MarketCap : {type : String, default: ''},
-  DividendYield : {type : String, default: ''},
-  Beta : {type : String, default: ''},
-  DojiStarPattern : {type : String, default: ''},
-  ChillStarPattern : {type : String, default: ''}
+  Title: {type: String, default: ''},
+  Date: { type: Object, default: '' },
+  Price: { type: Object, default: '' },
+  Volume: { type: Object, default: ''},
+  Value : {type: Object, default: ''},
+  PE : {type: Object, default: ''},
+  PBV : {type: Object, default: ''},
+  MarketCap : {type : Object, default: ''},
+  DividendYield : {type : Object, default: ''},
+  Beta : {type : Object, default: ''},
+  DojiStarPattern : {type : Object, default: ''},
+  ChillStarPattern : {type : Object, default: ''}
 });
 
-module.exports = mongoose.model('firstOneData', DataSchema, 'firstOne');
+module.exports = mongoose.model('firstOneData', DataSchema, 'allFiles');
