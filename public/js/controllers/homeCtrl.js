@@ -12,6 +12,22 @@ angular.module('stockAppHomeCtrlMD', []).
       $scope.config = {};
       $scope.dataIndex = 0;
       $scope.dataPoints = 0;
+      $scope.buyFilterList = [];
+      $scope.sellFilterList = [];
+      $scope.buyCardSelections = {
+        parameter: 'Volume',
+        operator: '<',
+        value: '',
+        dojiStar : '',
+        chillStar : ''
+      };
+      $scope.sellCardSelections = {
+        parameter: 'Volume',
+        operator: '<',
+        value: '',
+        dojiStar : '',
+        chillStar : ''
+      };
 
       getTitles();
 
@@ -87,6 +103,52 @@ angular.module('stockAppHomeCtrlMD', []).
         else if ($scope.selectedStockName.length === 0) {
           $scope.searchListArray = [];
         }
+      };
+
+      $scope.addToBuyFilter = function (){
+        var _filter = {
+          parameter : $scope.buyCardSelections.parameter,
+          operator : $scope.buyCardSelections.operator,
+          value : $scope.buyCardSelections.value
+        }
+        $scope.buyFilterList.push(_filter);
+      };
+
+      $scope.editBuyFilter = function (index){
+        var _selectedFilter = angular.copy($scope.buyFilterList[index]);
+        $scope.buyCardSelections = {
+          parameter: _selectedFilter.parameter,
+          operator: _selectedFilter.operator,
+          value: _selectedFilter.value
+        };
+        $scope.buyFilterList.splice(index, 1);
+      };
+
+      $scope.removeFromBuyFilter = function (index){
+        $scope.buyFilterList.splice(index, 1);
+      };
+
+      $scope.addToSellFilter = function (){
+        var _filter = {
+          parameter : $scope.sellCardSelections.parameter,
+          operator : $scope.sellCardSelections.operator,
+          value : $scope.sellCardSelections.value
+        }
+        $scope.sellFilterList.push(_filter);
+      };
+
+      $scope.editSellFilter = function (index){
+        var _selectedFilter = angular.copy($scope.sellFilterList[index]);
+        $scope.sellCardSelections = {
+          parameter: _selectedFilter.parameter,
+          operator: _selectedFilter.operator,
+          value: _selectedFilter.value
+        };
+        $scope.sellFilterList.splice(index, 1);
+      };
+
+      $scope.removeFromSellFilter = function (index){
+        $scope.sellFilterList.splice(index, 1);
       };
 
       function formatDataForConfig(indexToStartFrom, totalDataPoints){
