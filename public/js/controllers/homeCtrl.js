@@ -57,12 +57,14 @@ angular.module('stockAppHomeCtrlMD', []).
 
       function fetchStockDetails (stockName) {
         var _config = {
-        url: 'http://128.199.114.191:8080/api/getData',
-        method: 'GET',
-        params: {"title":stockName},
-        headers: {
-          'Content-Type': "text/plain"
-        }
+          url: 'http://128.199.114.191:8080/api/getData',
+          method: 'GET',
+          params: {"title":stockName},
+          headers: {
+            'Content-Type': "text/plain"
+          },
+          timeout: 180000
+
       };
       CoreHttpSV.httpSV(_config).then(function (data) {
 
