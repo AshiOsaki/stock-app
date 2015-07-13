@@ -21,6 +21,21 @@ angular.module('stockAppHomeCtrlMD', []).
       $scope.requestedEndDate = new Date();
       $scope.hideSearchList = false;
       $scope.config = {};
+      $scope.buyFilterList = [];
+      $scope.buyCardSelections = {
+        parameter: 'Volume',
+        operator: '<',
+        value: '',
+        dojiStar : '',
+        chillStar : ''
+      };
+      $scope.sellCardSelections = {
+        parameter: 'Volume',
+        operator: '<',
+        value: '',
+        dojiStar : '',
+        chillStar : ''
+      };
 
       function fetchStockDetails (stockName) {
         var _config = {
@@ -72,7 +87,11 @@ angular.module('stockAppHomeCtrlMD', []).
         else if ($scope.selectedStockName.length === 0) {
           $scope.searchListArray = [];
         }
-      }
+      };
+
+      $scope.addToBuyFilter = function (){
+
+      };
 
       function formatDataForConfig(data){
 

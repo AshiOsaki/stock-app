@@ -65,3 +65,9 @@
 .plus-icon:hover {
     cursor: pointer;
 }
+
+.card-operator-btn-active{
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}

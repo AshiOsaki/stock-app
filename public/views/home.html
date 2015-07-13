@@ -55,31 +55,36 @@
             <!--<div class="mdl-card__supporting-text">-->
                 <div class="row list-special">
                     <div class="col-md-3 right-border">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Parameters<span class="caret"></span></button>
-                            <ul class="dropdown-menu scrollable-menu" role="menu">
-                                <li><a href="#">Volume</a></li>
-                                <li><a href="#">Value</a></li>
-                                <li><a href="#">P/E</a></li>
-                                <li><a href="#">P/BV</a></li>
-                                <li><a href="#">Market Cap</a></li>
-                                <li><a href="#">Dividend Yield</a></li>
-                                <li><a href="#">Beta</a></li>
-                            </ul>
+                        <select class="form-control" id="buyParameters" ng-model="buyCardSelections.parameter">
+                            <option>Volume</option>
+                            <option>Value</option>
+                            <option>P/E</option>
+                            <option>P/BV</option>
+                            <option>Market Cap</option>
+                            <option>Dividend Yield</option>
+                            <option>Beta</option>
+                        </select>
                     </div>
                     <div class="col-md-4">
                         <div class="btn-group btn-group-justified" role="group" aria-label="...">
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="buyCardSelections.operator = '<'"
+                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '<'}">
                                     <
                                 </button>
                             </div>
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="buyCardSelections.operator = '>'"
+                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '>'}">
                                     >
                                 </button>
                             </div>
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="buyCardSelections.operator = '='"
+                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '='}">
                                     =
                                 </button>
                             </div>
@@ -87,7 +92,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Value" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control" placeholder="1-100" aria-describedby="basic-addon2">
                         </div>
                     </div>
 
@@ -120,31 +125,36 @@
             <!--<div class="mdl-card__supporting-text">-->
             <div class="row list-special">
                 <div class="col-md-3 right-border">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Parameters<span class="caret"></span></button>
-                    <ul class="dropdown-menu scrollable-menu" role="menu">
-                        <li><a href="#">Volume</a></li>
-                        <li><a href="#">Value</a></li>
-                        <li><a href="#">P/E</a></li>
-                        <li><a href="#">P/BV</a></li>
-                        <li><a href="#">Market Cap</a></li>
-                        <li><a href="#">Dividend Yield</a></li>
-                        <li><a href="#">Beta</a></li>
-                    </ul>
+                    <select class="form-control" id="sellParameters">
+                        <option>Volume</option>
+                        <option>Value</option>
+                        <option>P/E</option>
+                        <option>P/BV</option>
+                        <option>Market Cap</option>
+                        <option>Dividend Yield</option>
+                        <option>Beta</option>
+                    </select>
                 </div>
                 <div class="col-md-4">
                     <div class="btn-group btn-group-justified" role="group" aria-label="...">
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="sellCardSelections.operator = '<'"
+                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '<'}">
                                 <
                             </button>
                         </div>
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="sellCardSelections.operator = '>'"
+                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '>'}">
                                 >
                             </button>
                         </div>
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="sellCardSelections.operator = '='"
+                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '='}">
                                 =
                             </button>
                         </div>
@@ -152,7 +162,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Value" aria-describedby="basic-addon2">
+                        <input type="text" class="form-control" placeholder="1-100" aria-describedby="basic-addon2">
                     </div>
                 </div>
 
