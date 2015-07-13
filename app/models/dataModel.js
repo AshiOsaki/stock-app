@@ -19,4 +19,4 @@ var DataSchema = new Schema({
   ChillStarPattern : {type : Object, default: ''}
 });
 
-module.exports = mongoose.model('firstOneData', DataSchema, 'allFiles');
+module.exports = mongoose.model('firstOneData', DataSchema, 'sixthFiles');
