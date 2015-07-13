@@ -106,12 +106,17 @@ angular.module('stockAppHomeCtrlMD', []).
       };
 
       $scope.addToBuyFilter = function (){
-        var _filter = {
-          parameter : $scope.buyCardSelections.parameter,
-          operator : $scope.buyCardSelections.operator,
-          value : $scope.buyCardSelections.value
+        if(typeof($scope.buyCardSelections.value) != 'number'){
+          alert("Please enter number only")
         }
-        $scope.buyFilterList.push(_filter);
+        else {
+          var _filter = {
+            parameter: $scope.buyCardSelections.parameter,
+            operator: $scope.buyCardSelections.operator,
+            value: $scope.buyCardSelections.value
+          }
+          $scope.buyFilterList.push(_filter);
+        }
       };
 
       $scope.editBuyFilter = function (index){
@@ -129,12 +134,17 @@ angular.module('stockAppHomeCtrlMD', []).
       };
 
       $scope.addToSellFilter = function (){
-        var _filter = {
-          parameter : $scope.sellCardSelections.parameter,
-          operator : $scope.sellCardSelections.operator,
-          value : $scope.sellCardSelections.value
+        if(typeof($scope.sellCardSelections.value) != 'number'){
+          alert("Please enter number only")
         }
-        $scope.sellFilterList.push(_filter);
+        else {
+          var _filter = {
+            parameter: $scope.sellCardSelections.parameter,
+            operator: $scope.sellCardSelections.operator,
+            value: $scope.sellCardSelections.value
+          }
+          $scope.sellFilterList.push(_filter);
+        }
       };
 
       $scope.editSellFilter = function (index){
