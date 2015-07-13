@@ -34,7 +34,7 @@ angular.module('stockAppHomeCtrlMD', []).
       function getTitles() {
 
         var _config = {
-          url: 'http://0.0.0.0:8080/api/getTitles',
+          url: 'http://128.199.114.191:8080/api/getTitles',
           method: 'GET',
           headers: {
             'Content-Type': "text/plain"
@@ -57,7 +57,7 @@ angular.module('stockAppHomeCtrlMD', []).
 
       function fetchStockDetails (stockName) {
         var _config = {
-        url: 'http://0.0.0.0:8080/api/getData',
+        url: 'http://128.199.114.191:8080/api/getData',
         method: 'GET',
         params: {"title":stockName},
         headers: {
