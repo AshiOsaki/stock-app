@@ -24,25 +24,26 @@
     margin-left: 5% !important;
 }
 
-.get-quote-btn{
+.get-quote-btn {
     margin-top: 30px !important;
 }
 
-.right-border{
+.right-border {
     /*border-right: 1px solid #EF3C79;*/
     /*min-height: 50px;*/
 }
 
-.operator-section{
+.operator-section {
     margin-top: 3%;
 }
 
-.list-special{
+.list-special {
     margin-top: 2%;
 }
-.list-special .list-group-item{
+
+.list-special .list-group-item {
     border: 0px !important;
-    border-bottom: 1px  solid #b3d4fc !important;
+    border-bottom: 1px solid #b3d4fc !important;
     border-radius: 0px !important;
     margin-top: 1px
 }
@@ -53,6 +54,14 @@
     overflow-x: hidden;
 }
 
-.card-footer{
+.card-footer {
     margin-top: 20%;
+}
+
+.plus-icon {
+    margin-top: 15%
+}
+
+.plus-icon:hover {
+    cursor: pointer;
 }
