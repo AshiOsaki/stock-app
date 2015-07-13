@@ -99,6 +99,16 @@ angular.module('stockAppHomeCtrlMD', []).
         $scope.buyFilterList.push(_filter);
       };
 
+      $scope.editBuyFilter = function (index){
+        var _selectedFilter = angular.copy($scope.buyFilterList[index]);
+        $scope.buyCardSelections = {
+          parameter: _selectedFilter.parameter,
+          operator: _selectedFilter.operator,
+          value: _selectedFilter.value
+        };
+        $scope.buyFilterList.splice(index, 1);
+      };
+
       $scope.removeFromBuyFilter = function (index){
         $scope.buyFilterList.splice(index, 1);
       };
@@ -110,6 +120,16 @@ angular.module('stockAppHomeCtrlMD', []).
           value : $scope.sellCardSelections.value
         }
         $scope.sellFilterList.push(_filter);
+      };
+
+      $scope.editSellFilter = function (index){
+        var _selectedFilter = angular.copy($scope.sellFilterList[index]);
+        $scope.sellCardSelections = {
+          parameter: _selectedFilter.parameter,
+          operator: _selectedFilter.operator,
+          value: _selectedFilter.value
+        };
+        $scope.sellFilterList.splice(index, 1);
       };
 
       $scope.removeFromSellFilter = function (index){

@@ -39,18 +39,21 @@
                             <input type="text" class="form-control" ng-model="filter.parameter" aria-describedby="basic-addon2" disabled>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="filter.operator" aria-describedby="basic-addon2" disabled>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="filter.value" aria-describedby="basic-addon2" disabled>
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <span class="glyphicon glyphicon-minus glyph-icon" aria-hidden="true" ng-click="removeFromBuyFilter(index)"></span>
+                        <span class="glyphicon glyphicon-pencil glyph-icon" aria-hidden="true" ng-click="editBuyFilter($index)"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="glyphicon glyphicon-minus glyph-icon" aria-hidden="true" ng-click="removeFromBuyFilter($index)"></span>
                     </div>
                 </div>
             </div>
@@ -69,18 +72,21 @@
                             <input type="text" class="form-control" ng-model="filter.parameter" aria-describedby="basic-addon2" disabled>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="filter.operator" aria-describedby="basic-addon2" disabled>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="filter.value" aria-describedby="basic-addon2" disabled>
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <span class="glyphicon glyphicon-minus glyph-icon" aria-hidden="true" ng-click="removeFromSellFilter(index)"></span>
+                        <span class="glyphicon glyphicon-pencil glyph-icon" aria-hidden="true" ng-click="editSellFilter($index)"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="glyphicon glyphicon-minus glyph-icon" aria-hidden="true" ng-click="removeFromSellFilter($index)"></span>
                     </div>
                 </div>
             </div>
