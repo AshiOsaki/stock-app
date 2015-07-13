@@ -20,14 +20,23 @@ angular.module('stockAppHomeCtrlMD', []).
       $scope.validStockSelected = false;
       $scope.requestedEndDate = new Date();
       $scope.hideSearchList = false;
+      $scope.config = {};
 
-      $scope.fetchStockDetails = function (stockName) {
+      function fetchStockDetails (stockName) {
         var _config = {
-          url: '',
-          method: 'GET'
+          url: 'http://0.0.0.0:8080/api/getData',
+          method: 'GET',
+          params: {"title":"AFCL"},
+          headers: {
+            'Content-Type': "text/plain"
+          }
         };
-        CoreSV.httpSV(_config).then(function (data) {
-          console.log(data);
+        CoreHttpSV.httpSV(_config).then(function (data) {
+
+          console.log(data[0].Title);
+          createChartConfig(data[0]);
+          $scope.$broadcast("DrawChart", $scope.config);
+
         }, function (error) {
           console.log('Error while adding customer: ', error);
           $scope.$emit('processIndicator', false);
@@ -42,6 +51,7 @@ angular.module('stockAppHomeCtrlMD', []).
       $scope.getQuote = function () {
         if ($scope.selectedStockName.length > 3 && $scope.validStockSelected) {
           $scope.hideSearchList = true;
+          fetchStockDetails($scope.selectedStockName);
         }
       };
 
@@ -63,6 +73,57 @@ angular.module('stockAppHomeCtrlMD', []).
           $scope.searchListArray = [];
         }
       }
+
+      function formatDataForConfig(data){
+
+        return data;
+
+      }
+
+      function createChartConfig(receivedData){
+
+        var formattedData = formatDataForConfig(receivedData);
+        $scope.config = {
+          chart: {
+            type: 'line'
+          },
+          title: {
+            text: receivedData.Title
+          },
+          xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+          },
+          yAxis: {
+            title: {
+              text: 'Price'
+            }
+          },
+          tooltip: {
+            valueSuffix: '$'
+          },
+          credits:{
+            enabled: false
+          },
+          plotOptions: {
+            line: {dataLabels: {
+              enabled: true,
+              formatter: function () {
+                if (this.point.x % 2 == 0) return '';
+                return this.y + '$';
+              }
+            }
+            }
+          },
+          series: [
+            {
+              name: 'Stock Price',
+              data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            }
+          ]
+        };
+      }
+
+
 
 
     }]);
