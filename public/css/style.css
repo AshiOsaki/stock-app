@@ -58,10 +58,16 @@
     margin-top: 20%;
 }
 
-.plus-icon {
+.glyph-icon {
     margin-top: 15%
 }
 
-.plus-icon:hover {
+.glyph-icon:hover {
     cursor: pointer;
+}
+
+.card-operator-btn-active{
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
 }
