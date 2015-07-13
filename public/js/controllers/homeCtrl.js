@@ -22,6 +22,7 @@ angular.module('stockAppHomeCtrlMD', []).
       $scope.hideSearchList = false;
       $scope.config = {};
       $scope.buyFilterList = [];
+      $scope.sellFilterList = [];
       $scope.buyCardSelections = {
         parameter: 'Volume',
         operator: '<',
@@ -90,7 +91,29 @@ angular.module('stockAppHomeCtrlMD', []).
       };
 
       $scope.addToBuyFilter = function (){
+        var _filter = {
+          parameter : $scope.buyCardSelections.parameter,
+          operator : $scope.buyCardSelections.operator,
+          value : $scope.buyCardSelections.value
+        }
+        $scope.buyFilterList.push(_filter);
+      };
 
+      $scope.removeFromBuyFilter = function (index){
+        $scope.buyFilterList.splice(index, 1);
+      };
+
+      $scope.addToSellFilter = function (){
+        var _filter = {
+          parameter : $scope.sellCardSelections.parameter,
+          operator : $scope.sellCardSelections.operator,
+          value : $scope.sellCardSelections.value
+        }
+        $scope.sellFilterList.push(_filter);
+      };
+
+      $scope.removeFromSellFilter = function (index){
+        $scope.sellFilterList.splice(index, 1);
       };
 
       function formatDataForConfig(data){

@@ -33,6 +33,26 @@
         <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square" ng-show="hideSearchList">
             <div class="mdl-card__actions card-header">
                 <h2 class="mdl-card__title-text">Buy Filters</h2>
+                <div class="row list-special" ng-repeat="filter in buyFilterList">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="filter.parameter" aria-describedby="basic-addon2" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="filter.operator" aria-describedby="basic-addon2" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="filter.value" aria-describedby="basic-addon2" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="glyphicon glyphicon-minus glyph-icon" aria-hidden="true" ng-click="removeFromBuyFilter(index)"></span>
+                    </div>
+                </div>
             </div>
             <!--<div class="mdl-card__supporting-text">-->
             <!--</div>-->
@@ -41,7 +61,28 @@
 
         <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square" ng-show="hideSearchList">
             <div class="mdl-card__actions card-header">
-                <h2 class="mdl-card__title-text">Search Filters</h2>
+                <h2 class="mdl-card__title-text">Sell Filters</h2>
+
+                <div class="row list-special" ng-repeat="filter in sellFilterList">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="filter.parameter" aria-describedby="basic-addon2" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="filter.operator" aria-describedby="basic-addon2" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="filter.value" aria-describedby="basic-addon2" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="glyphicon glyphicon-minus glyph-icon" aria-hidden="true" ng-click="removeFromSellFilter(index)"></span>
+                    </div>
+                </div>
             </div>
             <!--<div class="mdl-card__supporting-text">-->
             <!--</div>-->
@@ -92,12 +133,12 @@
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="1-100" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control" placeholder="1-100" ng-model="buyCardSelections.value" aria-describedby="basic-addon2">
                         </div>
                     </div>
 
                     <div class="col-md-2">
-                        <span class="glyphicon glyphicon-plus plus-icon" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-plus glyph-icon" aria-hidden="true" ng-click="addToBuyFilter()"></span>
                     </div>
                 <!--</div>-->
             </div>
@@ -125,7 +166,7 @@
             <!--<div class="mdl-card__supporting-text">-->
             <div class="row list-special">
                 <div class="col-md-3 right-border">
-                    <select class="form-control" id="sellParameters">
+                    <select class="form-control" id="sellParameters" ng-model="sellCardSelections.parameter">
                         <option>Volume</option>
                         <option>Value</option>
                         <option>P/E</option>
@@ -162,12 +203,12 @@
                 </div>
                 <div class="col-md-3">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="1-100" aria-describedby="basic-addon2">
+                        <input type="text" class="form-control" placeholder="1-100" ng-model="sellCardSelections.value" aria-describedby="basic-addon2">
                     </div>
                 </div>
 
                 <div class="col-md-2">
-                    <span class="glyphicon glyphicon-plus plus-icon" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-plus glyph-icon" aria-hidden="true" ng-click="addToSellFilter()"></span>
                 </div>
                 <!--</div>-->
             </div>
