@@ -3,16 +3,32 @@ angular.module('stockAppHomeCtrlMD', []).
     '$scope',
     'CoreHttpSV',
     function ($scope, CoreHttpSV) {
-      $scope.stockList = [
-        "ABC Company",
-        "DEF Company",
-        "ADC Company",
-        "FINQ Company",
-        "Globe Company",
-        "BILL Company",
-        "PRO Company",
-        "STO Company"
-      ];
+
+      $scope.stockList = [];
+
+      getTitles();
+
+      function getTitles() {
+
+        var _config = {
+          url: 'http://0.0.0.0:8080/api/getTitles',
+          method: 'GET',
+          headers: {
+            'Content-Type': "text/plain"
+          }
+        };
+        CoreHttpSV.httpSV(_config).then(function (data) {
+
+          for(var i=0; i<data.length; i++ ){
+            $scope.stockList[i] = data[i].Title;
+          }
+
+        }, function (error) {
+          console.log('Error while getting titles: ', error);
+          $scope.$emit('processIndicator', false);
+        })
+
+      }
 
       $scope.searchListArray = angular.copy($scope.stockList);
 
@@ -21,27 +37,28 @@ angular.module('stockAppHomeCtrlMD', []).
       $scope.requestedEndDate = new Date();
       $scope.hideSearchList = false;
       $scope.config = {};
+      $scope.dataIndex = 0;
+      $scope.dataPoints = 0;
 
       function fetchStockDetails (stockName) {
         var _config = {
-          url: 'http://0.0.0.0:8080/api/getData',
-          method: 'GET',
-          params: {"title":"AFCL"},
-          headers: {
-            'Content-Type': "text/plain"
-          }
-        };
-        CoreHttpSV.httpSV(_config).then(function (data) {
-
-          console.log(data[0].Title);
-          createChartConfig(data[0]);
-          $scope.$broadcast("DrawChart", $scope.config);
-
-        }, function (error) {
-          console.log('Error while adding customer: ', error);
-          $scope.$emit('processIndicator', false);
-        })
+        url: 'http://0.0.0.0:8080/api/getData',
+        method: 'GET',
+        params: {"title":stockName},
+        headers: {
+          'Content-Type': "text/plain"
+        }
       };
+      CoreHttpSV.httpSV(_config).then(function (data) {
+
+        $scope.data = data[0];
+        $scope.createChartConfig(-365,365);
+
+      }, function (error) {
+        console.log('Error while fetching stock details: ', error);
+        $scope.$emit('processIndicator', false);
+      })
+    };
 
       $scope.setStockName = function () {
         $scope.selectedStockName = event.currentTarget.text;
@@ -49,14 +66,13 @@ angular.module('stockAppHomeCtrlMD', []).
       };
 
       $scope.getQuote = function () {
-        if ($scope.selectedStockName.length > 3 && $scope.validStockSelected) {
-          $scope.hideSearchList = true;
-          fetchStockDetails($scope.selectedStockName);
-        }
+        $scope.hideSearchList = true;
+        fetchStockDetails($scope.selectedStockName);
+        $scope.validStockSelected = false;
       };
 
       $scope.createSearchList = function () {
-        if ($scope.selectedStockName.length > 3) {
+        if ($scope.selectedStockName.length > 0) {
           var _stockList = $scope.stockList,
             _length = _stockList.length,
             _stingToCheck = $scope.selectedStockName,
@@ -72,26 +88,38 @@ angular.module('stockAppHomeCtrlMD', []).
         else if ($scope.selectedStockName.length === 0) {
           $scope.searchListArray = [];
         }
+      };
+
+      function formatDataForConfig(indexToStartFrom, totalDataPoints){
+
+        $scope.dataIndex = indexToStartFrom;
+        $scope.dataPoints = totalDataPoints;
+
+        var dates = $scope.data.Date.value.splice($scope.dataIndex, $scope.dataPoints);
+        var prices = $scope.data.Price.value.splice($scope.dataIndex, $scope.dataPoints);
+
+        var usefulData = {
+          "dates":dates,
+          "prices":prices
+        };
+
+        return usefulData;
+
       }
 
-      function formatDataForConfig(data){
+      $scope.createChartConfig = function (indexToStartFrom, totalDataPoints){
 
-        return data;
+        var formattedData = formatDataForConfig(indexToStartFrom, totalDataPoints);
 
-      }
-
-      function createChartConfig(receivedData){
-
-        var formattedData = formatDataForConfig(receivedData);
         $scope.config = {
           chart: {
             type: 'line'
           },
           title: {
-            text: receivedData.Title
+            text: $scope.data.Title
           },
           xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            categories: formattedData.dates
           },
           yAxis: {
             title: {
@@ -117,13 +145,13 @@ angular.module('stockAppHomeCtrlMD', []).
           series: [
             {
               name: 'Stock Price',
-              data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+              data: formattedData.prices
             }
           ]
         };
-      }
 
+        $scope.$broadcast("DrawChart", $scope.config);
 
-
+      };
 
     }]);

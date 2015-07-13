@@ -10,6 +10,15 @@ module.exports = function (app) {
     filePath = path.join(__dirname, '../uploads/dataContainer.csv');
 
 
+  exports.getTitles = function (req, res) {
+
+    dataModel.find({}, {"Title": true}, function (err, data) {
+      if (err) {
+        return handleError(res, err);
+      }
+      return res.send(200, data);
+    });
+  };
 
   exports.getData = function (req, res) {
 
@@ -83,7 +92,7 @@ module.exports = function (app) {
 
       for(var i= 1, j=0; i<fileLength; i++,j++) {
         dateValue[j] = output[i][0];
-        priceValue[j] = output[i][1];
+        priceValue[j] = parseInt(output[i][1]);
         volumeValue[j] = output[i][2];
         valueValue[j] = output[i][3];
         peValue[j] = output[i][4];
