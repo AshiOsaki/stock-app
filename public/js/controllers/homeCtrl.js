@@ -5,6 +5,13 @@ angular.module('stockAppHomeCtrlMD', []).
     function ($scope, CoreHttpSV) {
 
       $scope.stockList = [];
+      $scope.selectedStockName = "";
+      $scope.validStockSelected = false;
+      $scope.requestedEndDate = new Date();
+      $scope.hideSearchList = false;
+      $scope.config = {};
+      $scope.dataIndex = 0;
+      $scope.dataPoints = 0;
 
       getTitles();
 
@@ -31,14 +38,6 @@ angular.module('stockAppHomeCtrlMD', []).
       }
 
       $scope.searchListArray = angular.copy($scope.stockList);
-
-      $scope.selectedStockName = "";
-      $scope.validStockSelected = false;
-      $scope.requestedEndDate = new Date();
-      $scope.hideSearchList = false;
-      $scope.config = {};
-      $scope.dataIndex = 0;
-      $scope.dataPoints = 0;
 
       function fetchStockDetails (stockName) {
         var _config = {
