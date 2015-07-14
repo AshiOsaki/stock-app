@@ -5,6 +5,7 @@ module.exports = function (app) {
   var fs = require('fs');
   var q = require('q');
   var path = require('path');
+  var _ = require('underscore');
 
   var message,
     filePath = path.join(__dirname, '../uploads/dataContainer.csv');
@@ -17,6 +18,50 @@ module.exports = function (app) {
         return handleError(res, err);
       }
       return res.send(200, data);
+    });
+  };
+
+  exports.getMinMaxValues = function (req, res) {
+
+    var title = req.query.title;
+
+    dataModel.find({"Title": title}, function (err, data) {
+      if (err) {
+        return handleError(res, err);
+      }
+
+      var minMaxValues = {
+        "Volume" : {
+          "max": _.max(data[0].Volume.value),
+          "min": _.min(data[0].Volume.value)
+        },
+        "Value" : {
+          "max": _.max(data[0].Value.value),
+          "min": _.min(data[0].Value.value)
+        },
+        "PE" : {
+          "max": _.max(data[0].PE.value),
+          "min": _.min(data[0].PE.value)
+        },
+        "PBV" : {
+          "max": _.max(data[0].PBV.value),
+          "min": _.min(data[0].PBV.value)
+        },
+        "MarketCap" : {
+          "max": _.max(data[0].MarketCap.value),
+          "min": _.min(data[0].MarketCap.value)
+        },
+        "DividendYield" : {
+          "max": _.max(data[0].DividendYield.value),
+          "min": _.min(data[0].DividendYield.value)
+        },
+        "Beta" : {
+          "max": _.max(data[0].Beta.value),
+          "min": _.min(data[0].Beta.value)
+        }
+      };
+
+      return res.send(200, minMaxValues);
     });
   };
 

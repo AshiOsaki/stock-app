@@ -10,6 +10,8 @@ module.exports = function(app) {
 
   app.get('/api/getTitles', Ctrl.getTitles) ;
 
+  app.get('/api/getMinMaxValues', Ctrl.getMinMaxValues) ;
+
   app.post('/api/postData', [multer({
     dest: './uploads/',
     rename: function (fieldname, filename){
