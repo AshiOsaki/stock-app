@@ -145,19 +145,19 @@ module.exports = function (app) {
           "value": valueValue
         },
         peObj = {
-          "name": "P/E",
+          "name": "PE",
           "value": peValue
         },
         pbvObj = {
-          "name": "P/BV",
+          "name": "PBV",
           "value": pbvValue
         },
         marketCapObj = {
-          "name": "Market Cap",
+          "name": "MarketCap",
           "value": marketCapValue
         },
         dividendYieldObj = {
-          "name": "Dividend Yield",
+          "name": "DividendYield",
           "value": dividendYieldValue
         },
         betaObj = {
@@ -165,11 +165,11 @@ module.exports = function (app) {
           "value": betaValue
         },
         dojiStarPatternObj = {
-          "name": "Doji Star Pattern",
+          "name": "DojiStarPattern",
           "value": dojiStarPatternValue
         },
         chillStarPatternObj = {
-          "name": "Chill Star Pattern",
+          "name": "ChillStarPattern",
           "value": chillStarPatternValue
         };
 
