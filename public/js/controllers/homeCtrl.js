@@ -18,15 +18,18 @@ angular.module('stockAppHomeCtrlMD', []).
         parameter: 'Volume',
         operator: '<',
         value: '',
-        dojiStar : '',
-        chillStar : ''
+        dojiStar: '',
+        chillStar: ''
       };
       $scope.sellCardSelections = {
         parameter: 'Volume',
         operator: '<',
         value: '',
-        dojiStar : '',
-        chillStar : ''
+        dojiStar: '',
+        chillStar: ''
+      };
+
+      $scope.buyFilterListData = {
       };
 
       getTitles();
@@ -42,7 +45,7 @@ angular.module('stockAppHomeCtrlMD', []).
         };
         CoreHttpSV.httpSV(_config).then(function (data) {
 
-          for(var i=0; i<data.length; i++ ){
+          for (var i = 0; i < data.length; i++) {
             $scope.stockList[i] = data[i].Title;
           }
 
@@ -72,30 +75,31 @@ angular.module('stockAppHomeCtrlMD', []).
           console.log('Error while fetching min max values: ', error);
           $scope.$emit('processIndicator', false);
         })
-      };
+      }
 
       $scope.searchListArray = angular.copy($scope.stockList);
 
-      function fetchStockDetails (stockName) {
+      function fetchStockDetails(stockName) {
         var _config = {
           url: 'http://128.199.114.191:8080/api/getData',
           method: 'GET',
-          params: {"title":stockName},
+          params: {"title": stockName},
           headers: {
             'Content-Type': "text/plain"
           },
           timeout: 180000
         };
-        CoreHttpSV.httpSV(_config).then(function (data) {
 
-          $scope.data = data[0];
-          $scope.createChartConfig(-365,365);
+      CoreHttpSV.httpSV(_config).then(function (data) {
 
-        }, function (error) {
-          console.log('Error while fetching stock details: ', error);
-          $scope.$emit('processIndicator', false);
-        })
-      };
+        $scope.data = data[0];
+        $scope.createChartConfig(-365,365);
+
+      }, function (error) {
+        console.log('Error while fetching stock details: ', error);
+        $scope.$emit('processIndicator', false);
+      })
+    };
 
       $scope.setStockName = function () {
         $scope.selectedStockName = event.currentTarget.text;
@@ -110,6 +114,7 @@ angular.module('stockAppHomeCtrlMD', []).
       };
 
       $scope.changePlaceholder = function () {
+        return;
 //        $scope.sellCardSelections.value = "";
 //        $scope.buyCardSelections.value = "";
 
@@ -151,8 +156,10 @@ angular.module('stockAppHomeCtrlMD', []).
             parameter: $scope.buyCardSelections.parameter,
             operator: $scope.buyCardSelections.operator,
             value: $scope.buyCardSelections.value
-          }
+          };
           $scope.buyFilterList.push(_filter);
+          $scope.buyFilterListData[_filter.parameter] = _getValues(_filter);
+          $scope.reDrawChart();
         }
       };
 
@@ -163,11 +170,15 @@ angular.module('stockAppHomeCtrlMD', []).
           operator: _selectedFilter.operator,
           value: _selectedFilter.value
         };
+        delete $scope.buyFilterListData[$scope.buyFilterList[index].parameter];
         $scope.buyFilterList.splice(index, 1);
+        $scope.reDrawChart();
       };
 
       $scope.removeFromBuyFilter = function (index){
+        delete $scope.buyFilterListData[$scope.buyFilterList[index].parameter];
         $scope.buyFilterList.splice(index, 1);
+        $scope.reDrawChart();
       };
 
       $scope.addToSellFilter = function (){
@@ -185,7 +196,7 @@ angular.module('stockAppHomeCtrlMD', []).
             parameter: $scope.sellCardSelections.parameter,
             operator: $scope.sellCardSelections.operator,
             value: $scope.sellCardSelections.value
-          }
+          };
           $scope.sellFilterList.push(_filter);
         }
       };
@@ -247,14 +258,16 @@ angular.module('stockAppHomeCtrlMD', []).
             enabled: false
           },
           plotOptions: {
-            line: {dataLabels: {
-              enabled: true,
-              formatter: function () {
-                if (this.point.x % 2 == 0) return '';
-                return this.y + '$';
+            line: {
+              dataLabels: {
+                enabled: false,
+                formatter: function () {
+//                  if (this.point.x % 2 == 0) return '';
+//                  return this.y + '$';
+                }
               }
             }
-            }
+            
           },
           series: [
             {
@@ -267,5 +280,81 @@ angular.module('stockAppHomeCtrlMD', []).
         $scope.$broadcast("DrawChart", $scope.config);
 
       };
+
+      $scope.reDrawChart = function () {
+
+        var _newDataLabels = _createBuyDataLabels();
+
+        var _options = $scope.chart.series[0].options;
+        _options.dataLabels.enabled = !_options.dataLabels.enabled;
+        _options.dataLabels.formatter = function () {
+          var _index = this.point.index;
+          if(_newDataLabels.indexOf(_index) == -1){
+            return ''
+          }
+          else{
+            return 'Buy';
+          }
+        };
+        $scope.chart.series[0].update(_options);
+      };
+
+      var _getValues = function (filter) {
+        var _data = $scope.data[filter.parameter].value,
+         _dataArray = [];
+        switch (filter.operator) {
+          case '<':
+            _data.forEach(function(value, index){
+              parseInt(value) < filter.value ? _dataArray.push(index) : ''
+            });
+            return _dataArray;
+            break;
+          case '>':
+            _data.forEach(function(value, index){
+              parseInt(value) > filter.value ? _dataArray.push(index) : ''
+            });
+            return _dataArray;
+            break;
+          case '=':
+            _data.forEach(function(value, index){
+              parseInt(value) == filter.value ? _dataArray.push(index) : ''
+            });
+            return _dataArray;
+            break;
+          case '<=':
+            _data.forEach(function(value, index){
+              parseInt(value) <= filter.value ? _dataArray.push(index) : ''
+            });
+            return _dataArray;
+            break;
+          case '>=':
+            _data.forEach(function(value, index){
+              parseInt(value) >= filter.value ? _dataArray.push(index) : ''
+            });
+            return _dataArray;
+            break;
+        }
+      };
+
+      var _createBuyDataLabels = function () {
+        var _dataLabels = [],
+          _buyFilterListData = $scope.buyFilterListData,
+          _keys = Object.keys(_buyFilterListData);
+
+        _keys.forEach(function (key, index) {
+//          _dataLabels.push(_buyFilterListData[key])
+          if(index == 0){
+            _dataLabels = _buyFilterListData[key];
+          }
+          else {
+            _dataLabels = _.intersection(_dataLabels, _buyFilterListData[key]);
+          }
+        });
+
+        return _dataLabels;
+
+//        return _.intersection(_dataLabels);
+
+      }
 
     }]);

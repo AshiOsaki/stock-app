@@ -13,6 +13,7 @@ angular.module('stockApp_LineChartDRMD', [])
           scope.$on('DrawChart', function (e, config) {
             element.highcharts(config);
             scope.chart = element.highcharts();
+            scope.$parent.chart = scope.chart;
           });
 
         }
