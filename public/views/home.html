@@ -102,7 +102,7 @@
             <!--<div class="mdl-card__supporting-text">-->
                 <div class="row list-special">
                     <div class="col-md-3 right-border">
-                        <select class="form-control" id="buyParameters" ng-model="buyCardSelections.parameter">
+                        <select class="form-control" id="buyParameters" ng-model="buyCardSelections.parameter" ng-change="changePlaceholder()">
                             <option>Volume</option>
                             <option>Value</option>
                             <option>P/E</option>
@@ -153,7 +153,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <input type="number" class="form-control" placeholder="1-100" ng-model="buyCardSelections.value" aria-describedby="basic-addon2">
+                            <input type="number" class="form-control" placeholder={{buyMinMaxPlaceholder}} ng-model="buyCardSelections.value" aria-describedby="basic-addon2">
                         </div>
                     </div>
 
@@ -186,7 +186,7 @@
             <!--<div class="mdl-card__supporting-text">-->
             <div class="row list-special">
                 <div class="col-md-3 right-border">
-                    <select class="form-control" id="sellParameters" ng-model="sellCardSelections.parameter">
+                    <select class="form-control" id="sellParameters" ng-model="sellCardSelections.parameter" ng-change="changePlaceholder()">
                         <option>Volume</option>
                         <option>Value</option>
                         <option>P/E</option>
@@ -237,7 +237,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="input-group">
-                        <input type="number" class="form-control" placeholder="1-100" ng-model="sellCardSelections.value" aria-describedby="basic-addon2">
+                        <input type="number" class="form-control" placeholder={{sellMinMaxPlaceholder}} ng-model="sellCardSelections.value" aria-describedby="basic-addon2">
                     </div>
                 </div>
 

@@ -31,34 +31,13 @@ module.exports = function (app) {
       }
 
       var minMaxValues = {
-        "Volume" : {
-          "max": _.max(data[0].Volume.value),
-          "min": _.min(data[0].Volume.value)
-        },
-        "Value" : {
-          "max": _.max(data[0].Value.value),
-          "min": _.min(data[0].Value.value)
-        },
-        "PE" : {
-          "max": _.max(data[0].PE.value),
-          "min": _.min(data[0].PE.value)
-        },
-        "PBV" : {
-          "max": _.max(data[0].PBV.value),
-          "min": _.min(data[0].PBV.value)
-        },
-        "MarketCap" : {
-          "max": _.max(data[0].MarketCap.value),
-          "min": _.min(data[0].MarketCap.value)
-        },
-        "DividendYield" : {
-          "max": _.max(data[0].DividendYield.value),
-          "min": _.min(data[0].DividendYield.value)
-        },
-        "Beta" : {
-          "max": _.max(data[0].Beta.value),
-          "min": _.min(data[0].Beta.value)
-        }
+        "Volume" : _.min(data[0].Volume.value) + ' - ' + _.max(data[0].Volume.value),
+        "Value" : _.min(data[0].Value.value) + ' - ' + _.max(data[0].Value.value),
+        "P/E" : _.min(data[0].PE.value) + ' - ' + _.max(data[0].PE.value),
+        "P/BV" : _.min(data[0].PBV.value) + ' - ' + _.max(data[0].PBV.value),
+        "Market Cap" : _.min(data[0].MarketCap.value) + ' - ' + _.max(data[0].MarketCap.value),
+        "Dividend Yield" : _.min(data[0].DividendYield.value) + ' - ' + _.max(data[0].DividendYield.value),
+        "Beta" : _.min(data[0].Beta.value) + ' - ' + _.max(data[0].Beta.value)
       };
 
       return res.send(200, minMaxValues);

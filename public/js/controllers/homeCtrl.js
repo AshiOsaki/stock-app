@@ -53,6 +53,27 @@ angular.module('stockAppHomeCtrlMD', []).
 
       }
 
+      function fetchMinMaxValues (stockName) {
+        var _config = {
+          url: 'http://128.199.114.191:8080/api/getMinMaxValues',
+          method: 'GET',
+          params: {"title":stockName},
+          headers: {
+            'Content-Type': "text/plain"
+          }
+        };
+        CoreHttpSV.httpSV(_config).then(function (data) {
+
+          $scope.minMaxValues = data;
+          $scope.buyMinMaxPlaceholder = $scope.minMaxValues.Volume;
+          $scope.sellMinMaxPlaceholder = $scope.minMaxValues.Volume;
+
+        }, function (error) {
+          console.log('Error while fetching min max values: ', error);
+          $scope.$emit('processIndicator', false);
+        })
+      };
+
       $scope.searchListArray = angular.copy($scope.stockList);
 
       function fetchStockDetails (stockName) {
@@ -64,18 +85,17 @@ angular.module('stockAppHomeCtrlMD', []).
             'Content-Type': "text/plain"
           },
           timeout: 180000
+        };
+        CoreHttpSV.httpSV(_config).then(function (data) {
 
+          $scope.data = data[0];
+          $scope.createChartConfig(-365,365);
+
+        }, function (error) {
+          console.log('Error while fetching stock details: ', error);
+          $scope.$emit('processIndicator', false);
+        })
       };
-      CoreHttpSV.httpSV(_config).then(function (data) {
-
-        $scope.data = data[0];
-        $scope.createChartConfig(-365,365);
-
-      }, function (error) {
-        console.log('Error while fetching stock details: ', error);
-        $scope.$emit('processIndicator', false);
-      })
-    };
 
       $scope.setStockName = function () {
         $scope.selectedStockName = event.currentTarget.text;
@@ -84,8 +104,17 @@ angular.module('stockAppHomeCtrlMD', []).
 
       $scope.getQuote = function () {
         $scope.hideSearchList = true;
+        fetchMinMaxValues($scope.selectedStockName);
         fetchStockDetails($scope.selectedStockName);
         $scope.validStockSelected = false;
+      };
+
+      $scope.changePlaceholder = function () {
+//        $scope.sellCardSelections.value = "";
+//        $scope.buyCardSelections.value = "";
+
+        $scope.buyMinMaxPlaceholder = $scope.minMaxValues[$scope.buyCardSelections.parameter];
+        $scope.sellMinMaxPlaceholder = $scope.minMaxValues[$scope.sellCardSelections.parameter];
       };
 
       $scope.createSearchList = function () {
@@ -108,8 +137,14 @@ angular.module('stockAppHomeCtrlMD', []).
       };
 
       $scope.addToBuyFilter = function (){
+        var min = parseInt($scope.minMaxValues[$scope.buyCardSelections.parameter].split('-')[0]);
+        var max = parseInt($scope.minMaxValues[$scope.buyCardSelections.parameter].split('-')[1]);
+
         if(typeof($scope.buyCardSelections.value) != 'number'){
           alert("Please enter number only")
+        }
+        else if($scope.buyCardSelections.value > max || $scope.buyCardSelections.value < min) {
+          alert("The value of this field should be more than " + min + " and less than " + max);
         }
         else {
           var _filter = {
@@ -136,8 +171,14 @@ angular.module('stockAppHomeCtrlMD', []).
       };
 
       $scope.addToSellFilter = function (){
+        var min = parseInt($scope.minMaxValues[$scope.sellCardSelections.parameter].split('-')[0]);
+        var max = parseInt($scope.minMaxValues[$scope.sellCardSelections.parameter].split('-')[1]);
+
         if(typeof($scope.sellCardSelections.value) != 'number'){
           alert("Please enter number only")
+        }
+        else if($scope.sellCardSelections.value > max || $scope.sellCardSelections.value < min) {
+          alert("The value of this field should be more than " + min + " and less than " + max);
         }
         else {
           var _filter = {
