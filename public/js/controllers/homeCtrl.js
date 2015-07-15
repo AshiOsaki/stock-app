@@ -114,7 +114,6 @@ angular.module('stockAppHomeCtrlMD', []).
       };
 
       $scope.changePlaceholder = function () {
-        return;
 //        $scope.sellCardSelections.value = "";
 //        $scope.buyCardSelections.value = "";
 
