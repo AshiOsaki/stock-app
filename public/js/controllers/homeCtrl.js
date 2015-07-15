@@ -170,7 +170,8 @@ angular.module('stockAppHomeCtrlMD', []).
         var _filter = {
           parameter: $scope.buyCardSelections.parameter,
           operator: $scope.buyCardSelections.operator,
-          value: $scope.buyCardSelections.value
+          value: $scope.buyCardSelections.value,
+          isInEditMode: false
         };
         $scope.buyFilterList.push(_filter);
         $scope.buyFilterListData[_filter.parameter] = _getValues(_filter);
@@ -179,14 +180,13 @@ angular.module('stockAppHomeCtrlMD', []).
       };
 
       $scope.editBuyFilter = function (index) {
-        var _selectedFilter = angular.copy($scope.buyFilterList[index]);
-        $scope.buyCardSelections = {
-          parameter: _selectedFilter.parameter,
-          operator: _selectedFilter.operator,
-          value: _selectedFilter.value
-        };
-        delete $scope.buyFilterListData[$scope.buyFilterList[index].parameter];
-        $scope.buyFilterList.splice(index, 1);
+        $scope.buyFilterList[index].isInEditMode = true;
+      };
+
+      $scope.saveBuyFilter = function (index) {
+        $scope.buyFilterList[index].isInEditMode = false;
+        var _filter = $scope.buyFilterList[index];
+        $scope.buyFilterListData[_filter.parameter] = _getValues(_filter);
         $scope.reDrawChart();
       };
 
@@ -210,7 +210,8 @@ angular.module('stockAppHomeCtrlMD', []).
           var _filter = {
             parameter: $scope.sellCardSelections.parameter,
             operator: $scope.sellCardSelections.operator,
-            value: $scope.sellCardSelections.value
+            value: $scope.sellCardSelections.value,
+            isInEditMode: false
           };
           $scope.sellFilterList.push(_filter);
 
@@ -220,14 +221,14 @@ angular.module('stockAppHomeCtrlMD', []).
       };
 
       $scope.editSellFilter = function (index) {
-        var _selectedFilter = angular.copy($scope.sellFilterList[index]);
-        $scope.sellCardSelections = {
-          parameter: _selectedFilter.parameter,
-          operator: _selectedFilter.operator,
-          value: _selectedFilter.value
-        };
-        delete $scope.sellFilterListData[$scope.sellFilterList[index].parameter];
-        $scope.sellFilterList.splice(index, 1);
+        $scope.sellFilterList[index].isInEditMode = true;
+      };
+
+
+      $scope.saveSellFilter = function (index) {
+        $scope.sellFilterList[index].isInEditMode = false;
+        var _filter = $scope.sellFilterList[index];
+        $scope.sellFilterListData[_filter.parameter] = _getValues(_filter);
         $scope.reDrawChart();
       };
 

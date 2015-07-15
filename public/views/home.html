@@ -41,16 +41,19 @@
                     </div>
                     <div class="col-md-2">
                         <div class="input-group">
-                            <input type="text" class="form-control" ng-model="filter.operator" aria-describedby="basic-addon2" disabled>
+                            <input type="text" class="form-control" ng-model="filter.operator" aria-describedby="basic-addon2" ng-disabled="!filter.isInEditMode">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="input-group">
-                            <input type="text" class="form-control" ng-model="filter.value" aria-describedby="basic-addon2" disabled>
+                            <input type="text" class="form-control" ng-model="filter.value" aria-describedby="basic-addon2" ng-disabled="!filter.isInEditMode">
                         </div>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-md-1" ng-hide="filter.isInEditMode">
                         <span class="glyphicon glyphicon-pencil glyph-icon" aria-hidden="true" ng-click="editBuyFilter($index)"></span>
+                    </div>
+                    <div class="col-md-1" ng-hide="!filter.isInEditMode">
+                        <span class="glyphicon glyphicon-ok glyph-icon" aria-hidden="true" ng-click="saveBuyFilter($index)"></span>
                     </div>
                     <div class="col-md-1">
                         <span class="glyphicon glyphicon-minus glyph-icon" aria-hidden="true" ng-click="removeFromBuyFilter($index)"></span>
@@ -74,16 +77,19 @@
                     </div>
                     <div class="col-md-2">
                         <div class="input-group">
-                            <input type="text" class="form-control" ng-model="filter.operator" aria-describedby="basic-addon2" disabled>
+                            <input type="text" class="form-control" ng-model="filter.operator" aria-describedby="basic-addon2" ng-disabled="!filter.isInEditMode">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="input-group">
-                            <input type="text" class="form-control" ng-model="filter.value" aria-describedby="basic-addon2" disabled>
+                            <input type="text" class="form-control" ng-model="filter.value" aria-describedby="basic-addon2" ng-disabled="!filter.isInEditMode">
                         </div>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-md-1" ng-hide="filter.isInEditMode">
                         <span class="glyphicon glyphicon-pencil glyph-icon" aria-hidden="true" ng-click="editSellFilter($index)"></span>
+                    </div>
+                    <div class="col-md-1" ng-hide="!filter.isInEditMode">
+                        <span class="glyphicon glyphicon-pencil glyph-ok" aria-hidden="true" ng-click="saveSellFilter($index)"></span>
                     </div>
                     <div class="col-md-1">
                         <span class="glyphicon glyphicon-minus glyph-icon" aria-hidden="true" ng-click="removeFromSellFilter($index)"></span>
