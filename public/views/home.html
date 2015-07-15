@@ -166,12 +166,16 @@
             <div class="mdl-card__actions mdl-card--border card-footer">
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <div class="btn-group" role="group">
-                        <button class="mdl-button mdl-js-button mdl-button--raised">
+                        <button class="mdl-button mdl-js-button mdl-button--raised"
+                                ng-class="{'star-button-pressed': buyDojiStarPattern.isPressed && buyDojiStarPattern.value == 100}"
+                                ng-click="toggleDojiStar('buy')">
                             Doji Star
                         </button>
                     </div>
                     <div class="btn-group" role="group">
-                        <button class="mdl-button mdl-js-button mdl-button--raised">
+                        <button class="mdl-button mdl-js-button mdl-button--raised"
+                                ng-class="{'star-button-pressed': buyChillStarPattern.isPressed && buyChillStarPattern.value == 100}"
+                                ng-click="toggleChillStar('buy')">
                             Chill star
                         </button>
                     </div>
@@ -250,12 +254,16 @@
             <div class="mdl-card__actions mdl-card--border card-footer">
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <div class="btn-group" role="group">
-                        <button class="mdl-button mdl-js-button mdl-button--raised">
+                        <button class="mdl-button mdl-js-button mdl-button--raised"
+                                ng-class="{'star-button-pressed': sellDojiStarPattern.isPressed && sellDojiStarPattern.value == -100}"
+                                ng-click="toggleDojiStar('sell')">
                             Doji Star
                         </button>
                     </div>
                     <div class="btn-group" role="group">
-                        <button class="mdl-button mdl-js-button mdl-button--raised">
+                        <button class="mdl-button mdl-js-button mdl-button--raised"
+                                ng-class="{'star-button-pressed': sellChillStarPattern.isPressed && sellChillStarPattern.value == -100}"
+                                ng-click="toggleChillStar('sell')">
                             Chill star
                         </button>
                     </div>
