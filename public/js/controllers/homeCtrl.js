@@ -25,20 +25,20 @@ angular.module('stockAppHomeCtrlMD', []).
         value: ''
       };
 
-      $scope.buyDojiStarPattern =  {
-        isPressed : false,
+      $scope.buyDojiStarPattern = {
+        isPressed: false,
         value: 0
       };
       $scope.buyChillStarPattern = {
-        isPressed : false,
+        isPressed: false,
         value: 0
       };
-      $scope.sellDojiStarPattern =  {
-        isPressed : false,
-        value : 0
+      $scope.sellDojiStarPattern = {
+        isPressed: false,
+        value: 0
       };
       $scope.sellChillStarPattern = {
-        isPressed : false,
+        isPressed: false,
         value: 0
       };
 
@@ -47,6 +47,27 @@ angular.module('stockAppHomeCtrlMD', []).
 
       $scope.sellFilterListData = {
       };
+
+      $scope.buyParameterList = {
+        "Volume": "Volume",
+        "Value": "Value",
+        "P/E": "PE",
+        "P/BV": "PBV",
+        "Market Cap": "MarketCap",
+        "Dividend Yield": "DividendYield",
+        "Beta": "Beta"
+      };
+
+      $scope.sellParameterList = {
+        "Volume": "Volume",
+        "Value": "Value",
+        "P/E": "PE",
+        "P/BV": "PBV",
+        "Market Cap": "MarketCap",
+        "Dividend Yield": "DividendYield",
+        "Beta": "Beta"
+      };
+
 
       getTitles();
 
@@ -83,6 +104,7 @@ angular.module('stockAppHomeCtrlMD', []).
         };
         CoreHttpSV.httpSV(_config).then(function (data) {
 
+
           $scope.minMaxValues = data;
           $scope.buyMinMaxPlaceholder = $scope.minMaxValues.Volume;
           $scope.sellMinMaxPlaceholder = $scope.minMaxValues.Volume;
@@ -109,6 +131,9 @@ angular.module('stockAppHomeCtrlMD', []).
         CoreHttpSV.httpSV(_config).then(function (data) {
 
           $scope.data = data[0];
+
+          $scope.prices = angular.copy($scope.data.Price.value);
+
           $scope.createChartConfig(-365, 365);
 
         }, function (error) {
@@ -144,7 +169,7 @@ angular.module('stockAppHomeCtrlMD', []).
             _stingToCheck = $scope.selectedStockName,
             _newSearchArray = [];
           for (var i = 0; i < _length; i++) {
-            if (_stockList[i].substring(0, _stingToCheck.length) === _stingToCheck) {
+            if (_stockList[i].substring(0, _stingToCheck.length).toLowerCase() === _stingToCheck.toLowerCase() || _stockList[i].substring(0, _stingToCheck.length).toUpperCase() === _stingToCheck.toUpperCase()) {
               _newSearchArray.push(_stockList[i]);
             }
           }
@@ -157,25 +182,28 @@ angular.module('stockAppHomeCtrlMD', []).
       };
 
       $scope.addToBuyFilter = function () {
-        var min = parseInt($scope.minMaxValues[$scope.buyCardSelections.parameter].split('-')[0]);
-        var max = parseInt($scope.minMaxValues[$scope.buyCardSelections.parameter].split('-')[1]);
+        var min = parseFloat($scope.minMaxValues[$scope.buyCardSelections.parameter].split('-')[0]);
+        var max = parseFloat($scope.minMaxValues[$scope.buyCardSelections.parameter].split('-')[1]);
 
-        if(typeof($scope.buyCardSelections.value) != 'number'){
+
+        if (typeof($scope.buyCardSelections.value) != 'number') {
           alert("Please enter number only")
         }
-        else if($scope.buyCardSelections.value > max || $scope.buyCardSelections.value < min) {
+        else if ($scope.buyCardSelections.value > max || $scope.buyCardSelections.value < min) {
           alert("The value of this field should be more than " + min + " and less than " + max);
         }
         else {
-        var _filter = {
-          parameter: $scope.buyCardSelections.parameter,
-          operator: $scope.buyCardSelections.operator,
-          value: $scope.buyCardSelections.value,
-          isInEditMode: false
-        };
-        $scope.buyFilterList.push(_filter);
-        $scope.buyFilterListData[_filter.parameter] = _getValues(_filter);
-        $scope.reDrawChart();
+          var _filter = {
+            parameter: $scope.buyCardSelections.parameter,
+            operator: $scope.buyCardSelections.operator,
+            value: $scope.buyCardSelections.value,
+            isInEditMode: false
+          };
+          $scope.buyFilterList.push(_filter);
+          $scope.buyFilterListData[_filter.parameter] = _getValues(_filter);
+          deleteParametersFromList($scope.buyParameterList, 'Buy');
+
+          $scope.reDrawChart();
         }
       };
 
@@ -192,13 +220,15 @@ angular.module('stockAppHomeCtrlMD', []).
 
       $scope.removeFromBuyFilter = function (index) {
         delete $scope.buyFilterListData[$scope.buyFilterList[index].parameter];
+        addParametersToList($scope.buyFilterList[index].parameter, 'Buy');
         $scope.buyFilterList.splice(index, 1);
+
         $scope.reDrawChart();
       };
 
       $scope.addToSellFilter = function () {
-        var min = parseInt($scope.minMaxValues[$scope.sellCardSelections.parameter].split('-')[0]);
-        var max = parseInt($scope.minMaxValues[$scope.sellCardSelections.parameter].split('-')[1]);
+        var min = parseFloat($scope.minMaxValues[$scope.sellCardSelections.parameter].split('-')[0]);
+        var max = parseFloat($scope.minMaxValues[$scope.sellCardSelections.parameter].split('-')[1]);
 
         if (typeof($scope.sellCardSelections.value) != 'number') {
           alert("Please enter number only")
@@ -214,8 +244,9 @@ angular.module('stockAppHomeCtrlMD', []).
             isInEditMode: false
           };
           $scope.sellFilterList.push(_filter);
-
           $scope.sellFilterListData[_filter.parameter] = _getValues(_filter);
+          deleteParametersFromList($scope.sellParameterList, 'Sell');
+
           $scope.reDrawChart();
         }
       };
@@ -234,7 +265,10 @@ angular.module('stockAppHomeCtrlMD', []).
 
       $scope.removeFromSellFilter = function (index) {
         delete $scope.sellFilterListData[$scope.sellFilterList[index].parameter];
+        addParametersToList($scope.sellFilterList[index].parameter, 'Sell');
         $scope.sellFilterList.splice(index, 1);
+
+
         $scope.reDrawChart();
       };
 
@@ -309,6 +343,10 @@ angular.module('stockAppHomeCtrlMD', []).
         var _buyDataLabels = _createDataLabels($scope.buyFilterListData);
         var _sellDataLabels = _createDataLabels($scope.sellFilterListData);
 
+        var criticalData = criticalDataLabels(_buyDataLabels, _sellDataLabels);
+
+        var totalProfit = calculateProfitLoss(criticalData);
+
         var _options = $scope.chart.series[0].options;
         _options.dataLabels.enabled = true;
         _options.dataLabels.formatter = function () {
@@ -327,6 +365,76 @@ angular.module('stockAppHomeCtrlMD', []).
         };
         $scope.chart.series[0].update(_options);
         $scope.chart.redraw();
+      };
+
+
+      var criticalDataLabels = function (_buyDataLabels, _sellDataLabels) {
+
+        var totalLabelsLength = _.union(_buyDataLabels, _sellDataLabels).length;
+        var mainDataLabels = [],
+          mainDataIndex = [];
+
+        var bLength = _buyDataLabels.length;
+        var sLength = _sellDataLabels.length;
+
+        _buyDataLabels[_buyDataLabels.length] = 99999;
+        _sellDataLabels[_sellDataLabels.length] = 99999;
+
+        for (var m = 0, b = 0, s = 0; m < totalLabelsLength; m++) {
+          if (_buyDataLabels[b] < _sellDataLabels[s]) {
+            mainDataLabels[m] = _buyDataLabels[b];
+            mainDataIndex[m] = 1;
+            if (b < bLength)
+              b++;
+          } else if (_buyDataLabels[b] > _sellDataLabels[s]) {
+            mainDataLabels[m] = _sellDataLabels[s];
+            mainDataIndex[m] = -1;
+            if (s < sLength)
+              s++;
+          } else {
+            mainDataLabels[m] = _buyDataLabels[b];
+            mainDataIndex[m] = 1;
+            if (b < bLength && m < sLength) {
+              b++;
+              s++;
+            }
+          }
+        }
+        _buyDataLabels.splice(_buyDataLabels.length - 1, 1);
+        _sellDataLabels.splice(_sellDataLabels.length - 1, 1);
+
+        return {
+          "mainDataLabels": mainDataLabels,
+          "mainDataIndex": mainDataIndex
+        }
+      };
+
+      var calculateProfitLoss = function (criticalData) {
+        var dataPoints = criticalData.mainDataLabels,
+          sellBuy = criticalData.mainDataIndex;
+
+        var prev, curr, sellValue, profitArr = [],
+          buyValue = $scope.prices[criticalData.mainDataLabels[0]];
+
+        for (var i = 0, p = 0; i < dataPoints.length; i++) {
+          prev = sellBuy[i];
+          curr = sellBuy[i + 1];
+
+          if (prev == 1 && curr == -1) {
+            sellValue = $scope.prices[criticalData.mainDataLabels[i + 1]];
+            profitArr[p] = ((sellValue - buyValue) * 100) / buyValue;
+            p++;
+          }
+          else if (prev == -1 && curr == 1) {
+            buyValue = $scope.prices[criticalData.mainDataLabels[i + 1]];
+          }
+          else if (prev == 1 && curr == 1) {
+
+          }
+          else {
+
+          }
+        }
       };
 
       var _getValues = function (filter) {
@@ -383,9 +491,9 @@ angular.module('stockAppHomeCtrlMD', []).
         return _dataLabels;
       };
 
-      $scope.toggleDojiStar = function(card){
+      $scope.toggleDojiStar = function (card) {
         var _filter;
-        if(card === 'buy'){
+        if (card === 'buy') {
           $scope.buyDojiStarPattern.isPressed = true;
           $scope.buyDojiStarPattern.value = $scope.buyDojiStarPattern.value == 0 ? 100 : 0;
 
@@ -397,7 +505,7 @@ angular.module('stockAppHomeCtrlMD', []).
           $scope.buyFilterListData[_filter.parameter] = _getValues(_filter);
           $scope.reDrawChart();
         }
-        if(card === 'sell'){
+        if (card === 'sell') {
           $scope.sellDojiStarPattern.isPressed = true;
           $scope.sellDojiStarPattern.value = $scope.sellDojiStarPattern.value == 0 ? -100 : 0;
 
@@ -411,9 +519,9 @@ angular.module('stockAppHomeCtrlMD', []).
         }
       };
 
-      $scope.toggleChillStar = function(card){
+      $scope.toggleChillStar = function (card) {
         var _filter;
-        if(card === 'buy'){
+        if (card === 'buy') {
           $scope.buyChillStarPattern.isPressed = true;
           $scope.buyChillStarPattern.value = $scope.buyChillStarPattern.value == 0 ? 100 : 0;
 
@@ -425,7 +533,7 @@ angular.module('stockAppHomeCtrlMD', []).
           $scope.buyFilterListData[_filter.parameter] = _getValues(_filter);
           $scope.reDrawChart();
         }
-        if(card === 'sell'){
+        if (card === 'sell') {
           $scope.sellChillStarPattern.isPressed = true;
           $scope.sellChillStarPattern.value = $scope.sellChillStarPattern.value == 0 ? -100 : 0;
 
@@ -439,5 +547,60 @@ angular.module('stockAppHomeCtrlMD', []).
         }
       };
 
+      function deleteParametersFromList(list, hint){
+        var param;
+        if(hint == 'Buy')
+          param = $scope.buyCardSelections.parameter;
+        else if (hint == 'Sell')
+          param = $scope.sellCardSelections.parameter;
 
+        switch(param){
+          case 'PE': delete list['P/E'];
+            break;
+          case 'PBV': delete list['P/BV'];
+            break;
+          case 'MarketCap': delete list['Market Cap'];
+            break;
+          case 'DividendYield': delete list['Dividend Yield'];
+            break;
+          default: delete list[param];
+            break;
+        }
+
+        if(hint == 'Buy')
+          $scope.buyCardSelections.parameter = Object.keys(list)[0];
+        else if (hint == 'Sell')
+          $scope.sellCardSelections.parameter = Object.keys(list)[0];
+      }
+
+      function addParametersToList(param, hint) {
+        var list;
+        if(hint == 'Buy')
+          list = $scope.buyParameterList;
+        else if (hint == 'Sell')
+          list = $scope.sellParameterList;
+
+        switch(param){
+          case 'Volume': angular.extend(list, {"Volume": "Volume"});
+            break;
+          case 'Value': angular.extend(list, {"Value": "Value"});
+            break;
+          case 'PE': angular.extend(list, {"P/E": "PE"});
+            break;
+          case 'PBV': angular.extend(list, {"P/BV": "PBV"});
+            break;
+          case 'MarketCap': angular.extend(list, {"P/BV": "PBV"});
+            break;
+          case 'DividendYield': angular.extend(list, {"Dividend Yield": "DividendYield"});
+            break;
+          case 'Beta': angular.extend(list, {"Beta": "Beta"});
+            break;
+          default: break;
+        }
+
+        if(hint == 'Buy')
+          $scope.buyCardSelections.parameter = Object.keys(list)[0];
+        else if (hint == 'Sell')
+          $scope.sellCardSelections.parameter = Object.keys(list)[0];
+      }
     }]);

@@ -33,10 +33,10 @@ module.exports = function (app) {
       var minMaxValues = {
         "Volume" : _.min(data[0].Volume.value) + ' - ' + _.max(data[0].Volume.value),
         "Value" : _.min(data[0].Value.value) + ' - ' + _.max(data[0].Value.value),
-        "P/E" : _.min(data[0].PE.value) + ' - ' + _.max(data[0].PE.value),
-        "P/BV" : _.min(data[0].PBV.value) + ' - ' + _.max(data[0].PBV.value),
-        "Market Cap" : _.min(data[0].MarketCap.value) + ' - ' + _.max(data[0].MarketCap.value),
-        "Dividend Yield" : _.min(data[0].DividendYield.value) + ' - ' + _.max(data[0].DividendYield.value),
+        "PE" : _.min(data[0].PE.value) + ' - ' + _.max(data[0].PE.value),
+        "PBV" : _.min(data[0].PBV.value) + ' - ' + _.max(data[0].PBV.value),
+        "MarketCap" : _.min(data[0].MarketCap.value) + ' - ' + _.max(data[0].MarketCap.value),
+        "DividendYield" : _.min(data[0].DividendYield.value) + ' - ' + _.max(data[0].DividendYield.value),
         "Beta" : _.min(data[0].Beta.value) + ' - ' + _.max(data[0].Beta.value)
       };
 

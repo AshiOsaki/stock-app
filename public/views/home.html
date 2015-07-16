@@ -108,14 +108,8 @@
             <!--<div class="mdl-card__supporting-text">-->
                 <div class="row list-special">
                     <div class="col-md-3 right-border">
-                        <select class="form-control" id="buyParameters" ng-model="buyCardSelections.parameter" ng-change="changePlaceholder()">
-                            <option value="Volume">Volume</option>
-                            <option value="Value">Value</option>
-                            <option value="PE">P/E</option>
-                            <option value="PBV">P/BV</option>
-                            <option value="MarketCap">Market Cap</option>
-                            <option value="DividendYield">Dividend Yield</option>
-                            <option value="Beta">Beta</option>
+                        <select class="form-control" id="buyParameters" ng-model="buyCardSelections.parameter"
+                                ng-change="changePlaceholder()" ng-options="value as key for (key, value) in buyParameterList">
                         </select>
                     </div>
                     <div class="col-md-5">
@@ -196,14 +190,8 @@
             <!--<div class="mdl-card__supporting-text">-->
             <div class="row list-special">
                 <div class="col-md-3 right-border">
-                    <select class="form-control" id="sellParameters" ng-model="sellCardSelections.parameter" ng-change="changePlaceholder()">
-                        <option>Volume</option>
-                        <option>Value</option>
-                        <option>P/E</option>
-                        <option>P/BV</option>
-                        <option>Market Cap</option>
-                        <option>Dividend Yield</option>
-                        <option>Beta</option>
+                    <select class="form-control" id="sellParameters" ng-model="sellCardSelections.parameter"
+                            ng-change="changePlaceholder()" ng-options="value as key for (key, value) in sellParameterList">
                     </select>
                 </div>
                 <div class="col-md-5">
