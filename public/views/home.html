@@ -34,63 +34,6 @@
             <div class="mdl-card__actions card-header">
                 <h2 class="mdl-card__title-text">Buy</h2>
             </div>
-            <!--<div class="mdl-card__supporting-text">-->
-                <div class="row list-special">
-                    <div class="col-md-3 right-border">
-                        <select class="form-control" id="buyParameters" ng-model="buyCardSelections.parameter"
-                                ng-change="changePlaceholder()" ng-options="value as key for (key, value) in buyParameterList">
-                        </select>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="buyCardSelections.operator = '<'"
-                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '<'}">
-                                    <
-                                </button>
-                            </div>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="buyCardSelections.operator = '>'"
-                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '>'}">
-                                    >
-                                </button>
-                            </div>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="buyCardSelections.operator = '='"
-                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '='}">
-                                    =
-                                </button>
-                            </div>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="buyCardSelections.operator = '<='"
-                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '<='}">
-                                    <=
-                                </button>
-                            </div>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="buyCardSelections.operator = '>='"
-                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '>='}">
-                                    >=
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <input type="number" class="form-control" placeholder={{buyMinMaxPlaceholder}} ng-model="buyCardSelections.value" aria-describedby="basic-addon2">
-                        </div>
-                    </div>
-
-                    <div class="col-md-1">
-                        <span class="glyphicon glyphicon-plus glyph-icon" aria-hidden="true" ng-click="addToBuyFilter()"></span>
-                    </div>
-                <!--</div>-->
-            </div>
 
             <div class="row list-special" ng-repeat="filter in buyFilterList">
                 <div class="col-md-3">
@@ -161,6 +104,64 @@
                 </div>
             </div>
 
+            <!--<div class="mdl-card__supporting-text">-->
+                <div class="row list-special">
+                    <div class="col-md-3 right-border">
+                        <select class="form-control" id="buyParameters" ng-model="buyCardSelections.parameter"
+                                ng-change="changePlaceholder()" ng-options="value as key for (key, value) in buyParameterList">
+                        </select>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="buyCardSelections.operator = '<'"
+                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '<'}">
+                                    <
+                                </button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="buyCardSelections.operator = '>'"
+                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '>'}">
+                                    >
+                                </button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="buyCardSelections.operator = '='"
+                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '='}">
+                                    =
+                                </button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="buyCardSelections.operator = '<='"
+                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '<='}">
+                                    <=
+                                </button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="buyCardSelections.operator = '>='"
+                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '>='}">
+                                    >=
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <input type="number" class="form-control" placeholder={{buyMinMaxPlaceholder}} ng-model="buyCardSelections.value" aria-describedby="basic-addon2">
+                        </div>
+                    </div>
+
+                    <div class="col-md-1">
+                        <span class="glyphicon glyphicon-plus glyph-icon" aria-hidden="true" ng-click="addToBuyFilter()"></span>
+                    </div>
+                <!--</div>-->
+            </div>
+
 
             <div class="mdl-card__actions mdl-card--border card-footer">
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
@@ -185,63 +186,6 @@
         <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square" ng-show="hideSearchList">
             <div class="mdl-card__actions card-header">
                 <h2 class="mdl-card__title-text">Sell</h2>
-            </div>
-            <!--<div class="mdl-card__supporting-text">-->
-            <div class="row list-special">
-                <div class="col-md-3 right-border">
-                    <select class="form-control" id="sellParameters" ng-model="sellCardSelections.parameter"
-                            ng-change="changePlaceholder()" ng-options="value as key for (key, value) in sellParameterList">
-                    </select>
-                </div>
-                <div class="col-md-5">
-                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="sellCardSelections.operator = '<'"
-                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '<'}">
-                                <
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="sellCardSelections.operator = '>'"
-                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '>'}">
-                                >
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="sellCardSelections.operator = '='"
-                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '='}">
-                                =
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="sellCardSelections.operator = '<='"
-                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '<='}">
-                                <=
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="sellCardSelections.operator = '>='"
-                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '>='}">
-                                >=
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="input-group">
-                        <input type="number" class="form-control" placeholder={{sellMinMaxPlaceholder}} ng-model="sellCardSelections.value" aria-describedby="basic-addon2">
-                    </div>
-                </div>
-
-                <div class="col-md-1">
-                    <span class="glyphicon glyphicon-plus glyph-icon" aria-hidden="true" ng-click="addToSellFilter()"></span>
-                </div>
-                <!--</div>-->
             </div>
 
             <div class="row list-special" ng-repeat="filter in sellFilterList">
@@ -312,6 +256,65 @@
                     <span class="glyphicon glyphicon-minus glyph-icon" aria-hidden="true" ng-click="removeFromSellFilter($index)"></span>
                 </div>
             </div>
+
+            <!--<div class="mdl-card__supporting-text">-->
+            <div class="row list-special">
+                <div class="col-md-3 right-border">
+                    <select class="form-control" id="sellParameters" ng-model="sellCardSelections.parameter"
+                            ng-change="changePlaceholder()" ng-options="value as key for (key, value) in sellParameterList">
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="sellCardSelections.operator = '<'"
+                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '<'}">
+                                <
+                            </button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="sellCardSelections.operator = '>'"
+                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '>'}">
+                                >
+                            </button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="sellCardSelections.operator = '='"
+                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '='}">
+                                =
+                            </button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="sellCardSelections.operator = '<='"
+                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '<='}">
+                                <=
+                            </button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="sellCardSelections.operator = '>='"
+                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '>='}">
+                                >=
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <input type="number" class="form-control" placeholder={{sellMinMaxPlaceholder}} ng-model="sellCardSelections.value" aria-describedby="basic-addon2">
+                    </div>
+                </div>
+
+                <div class="col-md-1">
+                    <span class="glyphicon glyphicon-plus glyph-icon" aria-hidden="true" ng-click="addToSellFilter()"></span>
+                </div>
+                <!--</div>-->
+            </div>
+
 
 
 
