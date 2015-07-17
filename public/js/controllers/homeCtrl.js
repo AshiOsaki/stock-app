@@ -611,10 +611,11 @@ angular.module('stockAppHomeCtrlMD', []).
             break;
         }
 
-        if(hint == 'Buy')
-          $scope.buyCardSelections.parameter = Object.keys(list)[0];
+        if(hint == 'Buy'){
+          $scope.buyCardSelections.parameter = list[Object.keys(list)[0]];
+        console.log(Object.keys(list)[0]);}
         else if (hint == 'Sell')
-          $scope.sellCardSelections.parameter = Object.keys(list)[0];
+          $scope.sellCardSelections.parameter = list[Object.keys(list)[0]];
       }
 
       function addParametersToList(param, hint) {
@@ -643,8 +644,8 @@ angular.module('stockAppHomeCtrlMD', []).
         }
 
         if(hint == 'Buy')
-          $scope.buyCardSelections.parameter = Object.keys(list)[0];
+          $scope.buyCardSelections.parameter = list[Object.keys(list)[0]];
         else if (hint == 'Sell')
-          $scope.sellCardSelections.parameter = Object.keys(list)[0];
+          $scope.sellCardSelections.parameter = list[Object.keys(list)[0]];
       }
     }]);
