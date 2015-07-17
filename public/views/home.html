@@ -337,29 +337,7 @@
         <div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col graph-container" ng-show="hideSearchList">
             <div class="mdl-card__actions card-header">
                 <h2 class="mdl-card__title-text">Stock Behaviour</h2>
-                <button class="mdl-button mdl-js-button mdl-button--raised pull-right"  ng-class="{'mdl-button--primary': dataPoints == 30}" ng-click="createChartConfig(-30, 30)">
-                    1 Month
-                </button>
-                <button class="mdl-button mdl-js-button mdl-button--raised pull-right"  ng-class="{'mdl-button--primary': dataPoints == 91}" ng-click="createChartConfig(-91, 91)">
-                    3 Months
-                </button>
-                <button class="mdl-button mdl-js-button mdl-button--raised pull-right"  ng-class="{'mdl-button--primary': dataPoints == 182}" ng-click="createChartConfig(-182, 182)">
-                    6 Months
-                </button>
-                <button class="mdl-button mdl-js-button mdl-button--raised pull-right"  ng-class="{'mdl-button--primary': dataPoints == 365}" ng-click="createChartConfig(-365, 365)">
-                    1 Year
-                </button>
-                <button class="mdl-button mdl-js-button mdl-button--raised pull-right"  ng-class="{'mdl-button--primary': dataPoints == 1825}" ng-click="createChartConfig(-1825, 1825)">
-                    5 Year
-                </button>
                 <div line-chart-dir></div>
-                <button class="mdl-button mdl-js-button mdl-button--raised" ng-click="createChartConfig(dataIndex-dataPoints, dataPoints)">
-                    << Prev
-                </button>
-                <button class="mdl-button mdl-js-button mdl-button--raised pull-right" ng-click="createChartConfig(dataIndex+dataPoints, dataPoints)">
-                    Next >>
-                </button>
-
             </div>
         </div>
     </div>

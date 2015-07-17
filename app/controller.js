@@ -6,6 +6,7 @@ module.exports = function (app) {
   var q = require('q');
   var path = require('path');
   var _ = require('underscore');
+  var moment = require('moment');
 
   var message,
     filePath = path.join(__dirname, '../uploads/dataContainer.csv');
@@ -115,7 +116,7 @@ module.exports = function (app) {
       var fileLength = output.length;
 
       for(var i= 1, j=0; i<fileLength; i++,j++) {
-        dateValue[j] = output[i][0];
+        dateValue[j] = moment(output[i][0],"DD-MM-YYYY");
         priceValue[j] = parseInt(output[i][1]);
         volumeValue[j] = output[i][2];
         valueValue[j] = output[i][3];

@@ -132,9 +132,10 @@ angular.module('stockAppHomeCtrlMD', []).
 
           $scope.data = data[0];
 
+          $scope.dateTime = angular.copy($scope.data.Date.value);
           $scope.prices = angular.copy($scope.data.Price.value);
 
-          $scope.createChartConfig(-365, 365);
+          $scope.createChartConfig();
 
         }, function (error) {
           console.log('Error while fetching stock details: ', error);
@@ -272,41 +273,74 @@ angular.module('stockAppHomeCtrlMD', []).
         $scope.reDrawChart();
       };
 
-      function formatDataForConfig(indexToStartFrom, totalDataPoints) {
+      function formatDataForConfig() {
 
-        $scope.dataIndex = indexToStartFrom;
-        $scope.dataPoints = totalDataPoints;
+        var usefulData = [], arr=[];
 
-        var dates = $scope.data.Date.value.splice($scope.dataIndex, $scope.dataPoints);
-        var prices = $scope.data.Price.value.splice($scope.dataIndex, $scope.dataPoints);
-
-        var usefulData = {
-          "dates": dates,
-          "prices": prices
-        };
+        for (var i=0; i<$scope.dateTime.length; i++){
+          arr.push($scope.dateTime[i]);
+          arr.push($scope.prices[i]);
+          usefulData.push(arr);
+          arr=[];
+        }
 
         return usefulData;
 
       }
 
-      $scope.createChartConfig = function (indexToStartFrom, totalDataPoints) {
+      $scope.createChartConfig = function () {
 
-        var formattedData = formatDataForConfig(indexToStartFrom, totalDataPoints);
+        var data = formatDataForConfig();
 
         $scope.config = {
           chart: {
-            type: 'line'
+            type: 'line',
+            zoomType: 'x'
+          },
+          navigator : {
+            enabled: true,
+            adaptToUpdatedData: false,
+            series : {
+              data : data
+            }
+          },
+          scrollbar: {
+            liveRedraw: false
+          },
+          rangeSelector : {
+            buttons: [{
+              type: 'month',
+              count: 3,
+              text: '3m'
+            }, {
+              type: 'month',
+              count: 6,
+              text: '6m'
+            }, {
+              type: 'year',
+              count: 1,
+              text: '1y'
+            }, {
+              type: 'year',
+              count: 3,
+              text: '3y'
+            }, {
+              type: 'year',
+              count: 5,
+              text: '5y'
+            }, {
+              type: 'all',
+              text: 'All'
+            }],
+            inputEnabled: true, // it supports only days
+            selected : 2 // all
           },
           title: {
             text: $scope.data.Title
           },
-          xAxis: {
-            categories: formattedData.dates
-          },
+
           yAxis: {
-            title: {
-              text: 'Price'
-            }
+            floor: 0
           },
           tooltip: {
             valueSuffix: '$'
@@ -326,12 +360,12 @@ angular.module('stockAppHomeCtrlMD', []).
             }
 
           },
-          series: [
-            {
-              name: 'Stock Price',
-              data: formattedData.prices
+          series : [{
+            data : data,
+            dataGrouping: {
+              enabled: false
             }
-          ]
+          }]
         };
 
         $scope.$broadcast("DrawChart", $scope.config);
@@ -411,12 +445,14 @@ angular.module('stockAppHomeCtrlMD', []).
 
       var calculateProfitLoss = function (criticalData) {
         var dataPoints = criticalData.mainDataLabels,
-          sellBuy = criticalData.mainDataIndex;
+          sellBuy = criticalData.mainDataIndex,
+          logs = [];
 
         var prev, curr, sellValue, profitArr = [],
           buyValue = $scope.prices[criticalData.mainDataLabels[0]];
+        logs[0] = "1 is " + buyValue +"$ (Buy Point)                  Status: Buy";
 
-        for (var i = 0, p = 0; i < dataPoints.length; i++) {
+        for (var i = 0, p = 0, l = 1; i < dataPoints.length; i++) {
           prev = sellBuy[i];
           curr = sellBuy[i + 1];
 
@@ -424,17 +460,25 @@ angular.module('stockAppHomeCtrlMD', []).
             sellValue = $scope.prices[criticalData.mainDataLabels[i + 1]];
             profitArr[p] = ((sellValue - buyValue) * 100) / buyValue;
             p++;
+            logs[l] = (l+1) +" is " + sellValue +"$ (Sell Point)                  Status: Sell";
+            l++;
           }
           else if (prev == -1 && curr == 1) {
             buyValue = $scope.prices[criticalData.mainDataLabels[i + 1]];
+            logs[l] = (l+1) +" is " + buyValue +"$ (Buy Point)                  Status: Buy";
+            l++;
           }
           else if (prev == 1 && curr == 1) {
-
+            logs[l] = (l+1) +" is " + $scope.prices[criticalData.mainDataLabels[i + 1]] +"$ (Buy Point)                  Status: Hold";
+            l++;
           }
           else {
-
+            logs[l] = (l+1) +" is " + $scope.prices[criticalData.mainDataLabels[i + 1]] +"$ (Sell Point)                  Status: Invalid";
+            l++;
           }
         }
+
+        console.log(logs);
       };
 
       var _getValues = function (filter) {
