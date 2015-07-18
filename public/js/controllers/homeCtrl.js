@@ -74,7 +74,7 @@ angular.module('stockAppHomeCtrlMD', []).
       function getTitles() {
 
         var _config = {
-          url: 'http://128.199.114.191:8080/api/getTitles',
+          url: 'http://0.0.0.0:8080/api/getTitles',
           method: 'GET',
           headers: {
             'Content-Type': "text/plain"
@@ -95,7 +95,7 @@ angular.module('stockAppHomeCtrlMD', []).
 
       function fetchMinMaxValues(stockName) {
         var _config = {
-          url: 'http://128.199.114.191:8080/api/getMinMaxValues',
+          url: 'http://0.0.0.0:8080/api/getMinMaxValues',
           method: 'GET',
           params: {"title": stockName},
           headers: {
@@ -119,7 +119,7 @@ angular.module('stockAppHomeCtrlMD', []).
 
       function fetchStockDetails(stockName) {
         var _config = {
-          url: 'http://128.199.114.191:8080/api/getData',
+          url: 'http://0.0.0.0:8080/api/getData',
           method: 'GET',
           params: {"title": stockName},
           headers: {
@@ -367,9 +367,13 @@ angular.module('stockAppHomeCtrlMD', []).
 
           },
           series : [{
+            name: "Price",
             data : data,
             dataGrouping: {
               enabled: false
+            },
+            tooltip: {
+              valueSuffix: '$'
             }
           },{}]
         };
@@ -408,7 +412,10 @@ angular.module('stockAppHomeCtrlMD', []).
           name: 'Profit',
           data: totalProfit,
           color: 'orange',
-          yAxis:1
+          yAxis:1,
+          tooltip: {
+            valueSuffix: '%'
+          }
         });
 
         $scope.chart.redraw();
