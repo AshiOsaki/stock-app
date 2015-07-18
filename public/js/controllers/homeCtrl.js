@@ -338,13 +338,21 @@ angular.module('stockAppHomeCtrlMD', []).
           title: {
             text: $scope.data.Title
           },
-
-          yAxis: {
+          tooltip:{
+            shared: true
+          },
+          yAxis: [{
+            title:{
+              text: "Price in USD"
+            },
             floor: 0
-          },
-          tooltip: {
-            valueSuffix: '$'
-          },
+          },{
+            title:{
+              text: "Profit"
+            },
+            floor: -100,
+            opposite: false
+          }],
           credits: {
             enabled: false
           },
@@ -353,8 +361,6 @@ angular.module('stockAppHomeCtrlMD', []).
               dataLabels: {
                 enabled: false,
                 formatter: function () {
-//                  if (this.point.x % 2 == 0) return '';
-//                  return this.y + '$';
                 }
               }
             }
@@ -365,7 +371,7 @@ angular.module('stockAppHomeCtrlMD', []).
             dataGrouping: {
               enabled: false
             }
-          }]
+          },{}]
         };
 
         $scope.$broadcast("DrawChart", $scope.config);
@@ -398,6 +404,13 @@ angular.module('stockAppHomeCtrlMD', []).
           }
         };
         $scope.chart.series[0].update(_options);
+        $scope.chart.series[1].update({
+          name: 'Profit',
+          data: totalProfit,
+          color: 'orange',
+          yAxis:1
+        });
+
         $scope.chart.redraw();
       };
 
@@ -446,9 +459,11 @@ angular.module('stockAppHomeCtrlMD', []).
       var calculateProfitLoss = function (criticalData) {
         var dataPoints = criticalData.mainDataLabels,
           sellBuy = criticalData.mainDataIndex,
-          logs = [];
+          logs = [],
+          profitSeries = [],
+          timestamp;
 
-        var prev, curr, sellValue, profitArr = [],
+        var prev, curr, sellValue, profitPerc,
           buyValue = $scope.prices[criticalData.mainDataLabels[0]];
         logs[0] = "1 is " + buyValue +"$ (Buy Point)                  Status: Buy";
 
@@ -458,7 +473,9 @@ angular.module('stockAppHomeCtrlMD', []).
 
           if (prev == 1 && curr == -1) {
             sellValue = $scope.prices[criticalData.mainDataLabels[i + 1]];
-            profitArr[p] = ((sellValue - buyValue) * 100) / buyValue;
+            timestamp = $scope.dateTime[criticalData.mainDataLabels[i + 1]];
+            profitPerc = ((sellValue - buyValue) * 100) / buyValue;
+            profitSeries[p] = [timestamp, profitPerc] ;
             p++;
             logs[l] = (l+1) +" is " + sellValue +"$ (Sell Point)                  Status: Sell";
             l++;
@@ -478,7 +495,7 @@ angular.module('stockAppHomeCtrlMD', []).
           }
         }
 
-        console.log(logs);
+        return profitSeries;
       };
 
       var _getValues = function (filter) {
