@@ -343,5 +343,20 @@
                 <div line-chart-dir></div>
             </div>
         </div>
+        <div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col" ng-show="hideSearchList">
+            <div class="mdl-card__actions card-header">
+                <h2 class="mdl-card__title-text">Profit Summary</h2>
+                <div ng-repeat="log in logs1">
+                    <div>{{log}}</div>
+                </div>
+                <div>Sell: {{sellCount}} transactions</div>
+                <div>Buy: {{buyCount}} transactions</div>
+                <div>Hold: {{holdCount}} transactions</div>
+                <div>Backtesting Summary: {{backtestingSummary}} = {{backtestingPerc}}%</div>
+                <div>Stock Price Summary: {{stockSummary}}</div>
+                <div>Backtesting Gain a compared to Stock Price: {{backtestingGain}}</div>
+
+            </div>
+        </div>
     </div>
 </main>

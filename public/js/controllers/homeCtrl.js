@@ -466,41 +466,73 @@ angular.module('stockAppHomeCtrlMD', []).
       var calculateProfitLoss = function (criticalData) {
         var dataPoints = criticalData.mainDataLabels,
           sellBuy = criticalData.mainDataIndex,
-          logs = [],
           profitSeries = [],
           timestamp;
 
+        $scope.buyCount=0;
+        $scope.sellCount=0;
+        $scope.holdCount=0;
+        $scope.logs1 = [];
+        $scope.logs2 = [];
+        $scope.logs3 = [];
+        $scope.backtestingSummary = '';
+
+
         var prev, curr, sellValue, profitPerc,
           buyValue = $scope.prices[criticalData.mainDataLabels[0]];
-        logs[0] = "1 is " + buyValue +"$ (Buy Point)                  Status: Buy";
 
-        for (var i = 0, p = 0, l = 1; i < dataPoints.length; i++) {
+        var lastSell,
+          initialBuy = angular.copy(buyValue);
+
+        $scope.logs1[0] = "1 is " + buyValue +"$ (Buy Point)                  Status: Buy";
+
+        for (var i = 0, p = 0, l = 1; i < dataPoints.length-1; i++) {
           prev = sellBuy[i];
           curr = sellBuy[i + 1];
 
           if (prev == 1 && curr == -1) {
             sellValue = $scope.prices[criticalData.mainDataLabels[i + 1]];
             timestamp = $scope.dateTime[criticalData.mainDataLabels[i + 1]];
-            profitPerc = ((sellValue - buyValue) * 100) / buyValue;
+            profitPerc = (((sellValue - buyValue) * 100) / buyValue);
             profitSeries[p] = [timestamp, profitPerc] ;
-            p++;
-            logs[l] = (l+1) +" is " + sellValue +"$ (Sell Point)                  Status: Sell";
+            $scope.logs1[l] = (l+1) +" is " + sellValue +"$ (Sell Point) : Profit ("+
+              sellValue +"-"+buyValue+")/"+buyValue+" = "+(((sellValue - buyValue)* 100)/buyValue).toFixed(2)+"%   ------->   Status: Sell";
+            lastSell = sellValue;
             l++;
+            p++;
+            $scope.sellCount++;
+
+            if($scope.backtestingSummary)
+              $scope.backtestingSummary = $scope.backtestingSummary.concat(" + ");
+            $scope.backtestingSummary = $scope.backtestingSummary.concat(profitPerc.toFixed(2));
+
+            if(!$scope.backtestingPerc)
+              $scope.backtestingPerc = parseFloat((profitPerc).toFixed(2));
+            else
+              $scope.backtestingPerc += parseFloat((profitPerc).toFixed(2));
           }
           else if (prev == -1 && curr == 1) {
             buyValue = $scope.prices[criticalData.mainDataLabels[i + 1]];
-            logs[l] = (l+1) +" is " + buyValue +"$ (Buy Point)                  Status: Buy";
+            $scope.logs1[l] = (l+1) +" is " + buyValue +"$ (Buy Point) Status: Buy";
             l++;
+            $scope.buyCount++;
           }
           else if (prev == 1 && curr == 1) {
-            logs[l] = (l+1) +" is " + $scope.prices[criticalData.mainDataLabels[i + 1]] +"$ (Buy Point)                  Status: Hold";
+            $scope.logs1[l] = (l+1) +" is " + $scope.prices[criticalData.mainDataLabels[i + 1]] +"$ (Buy Point) Status: Hold";
             l++;
+            $scope.holdCount++;
           }
           else {
-            logs[l] = (l+1) +" is " + $scope.prices[criticalData.mainDataLabels[i + 1]] +"$ (Sell Point)                  Status: Invalid";
+            $scope.logs1[l] = (l+1) +" is " + $scope.prices[criticalData.mainDataLabels[i + 1]] +"$ (Sell Point) Status: Invalid";
             l++;
           }
         }
+
+        var stockPerc = (((lastSell - initialBuy)*100)/initialBuy).toFixed(2);
+        $scope.stockSummary = "("+lastSell+" - "+initialBuy+") / "+initialBuy+" = "
+          + stockPerc +"%";
+
+        $scope.backtestingGain =  $scope.backtestingPerc +" - "+ stockPerc+" = "+($scope.backtestingPerc - stockPerc)+"%";
 
         return profitSeries;
       };
