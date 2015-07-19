@@ -392,23 +392,6 @@ angular.module('stockAppHomeCtrlMD', []).
 
         var totalProfit = calculateProfitLoss(criticalData);
 
-//        var _options = $scope.chart.series[0].options;
-//        _options.dataLabels.enabled = true;
-//        _options.dataLabels.formatter = function () {
-//          var _index = this.point.index;
-//          if (_buyDataLabels.indexOf(_index) == -1) {
-//            if (_sellDataLabels.indexOf(_index) == -1) {
-//              return ''
-//            }
-//            else {
-//              return 'Sell';
-//            }
-//          }
-//          else {
-//            return 'Buy';
-//          }
-//        };
-//        $scope.chart.series[0].update(_options);
         $scope.chart.series[1].update({
           name: 'Profit',
           data: totalProfit,
@@ -419,7 +402,6 @@ angular.module('stockAppHomeCtrlMD', []).
           }
         });
 
-//        $scope.chart.addSeries(_sellDataLabels);
         $scope.chart.get('flagList') ? $scope.chart.get('flagList').remove() : null;
         $scope.chart.addSeries(_flagList);
         $scope.chart.redraw();
