@@ -1,362 +1,382 @@
 <main class="mdl-layout__content mdl-color--grey-100">
-    <div class="mdl-grid demo-content">
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-cell mdl-cell--12-col search-label">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="mdl-textfield mdl-js-textfield">
-                        <input class="mdl-textfield__input" type="text" id="searchStockName"
-                               ng-model="selectedStockName" placeholder="Search for stock..."
-                                ng-change="createSearchList()"/>
-                    </div>
-                </div>
-                <div class="col-md-2" ng-show="validStockSelected">
-                    <div class="mdl-textfield mdl-js-textfield get-quote-btn">
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="getQuote()">
-                            Get Quote
-                        </button>
-                    </div>
-                </div>
+<div class="mdl-grid demo-content">
+<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-cell mdl-cell--12-col search-label">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="mdl-textfield mdl-js-textfield">
+                <input class="mdl-textfield__input" type="text" id="searchStockName"
+                       ng-model="selectedStockName" placeholder="Search for stock..."
+                       ng-change="createSearchList()"/>
             </div>
         </div>
-
-        <div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col graph-container" ng-hide="hideSearchList">
-            <div class="mdl-card__actions card-header">
-                <h2 class="mdl-card__title-text">Search Results</h2>
-                <div class="list-group list-special">
-                    <a href="#" class="list-group-item" ng-repeat="stockName in searchListArray"
-                       ng-click="setStockName()">{{stockName}}</a>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square" ng-show="hideSearchList">
-            <div class="mdl-card__actions card-header">
-                <h2 class="mdl-card__title-text">Buy</h2>
-            </div>
-
-            <div class="row list-special" ng-repeat="filter in buyFilterList">
-                <div class="col-md-3">
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="filter.parameter" aria-describedby="basic-addon2" disabled>
-                    </div>
-                </div>
-                <div class="col-md-2" ng-hide="filter.isInEditMode">
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="filter.operator" aria-describedby="basic-addon2" ng-disabled="!filter.isInEditMode">
-                    </div>
-                </div>
-                <div class="col-md-5" ng-show="filter.isInEditMode">
-                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="filter.operator = '<'"
-                                    ng-class="{'card-operator-btn-active' : filter.operator == '<'}">
-                                <
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="filter.operator = '>'"
-                                    ng-class="{'card-operator-btn-active' : filter.operator == '>'}">
-                                >
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="filter.operator = '='"
-                                    ng-class="{'card-operator-btn-active' : filter.operator == '='}">
-                                =
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="filter.operator = '<='"
-                                    ng-class="{'card-operator-btn-active' : filter.operator == '<='}">
-                                <=
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="filter.operator = '>='"
-                                    ng-class="{'card-operator-btn-active' : filter.operator == '>='}">
-                                >=
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4" ng-class="{'col-md-4' : !filter.isInEditMode , 'col-md-2' : filter.isInEditMode}">
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="filter.value" aria-describedby="basic-addon2" ng-disabled="!filter.isInEditMode">
-                    </div>
-                </div>
-
-
-                <div class="col-md-1" ng-hide="filter.isInEditMode">
-                    <span class="glyphicon glyphicon-pencil glyph-icon" aria-hidden="true" ng-click="editBuyFilter($index)"></span>
-                </div>
-                <div class="col-md-1" ng-hide="!filter.isInEditMode">
-                    <span class="glyphicon glyphicon-ok glyph-icon" aria-hidden="true" ng-click="saveBuyFilter($index)"></span>
-                </div>
-                <div class="col-md-1">
-                    <span class="glyphicon glyphicon-minus glyph-icon" aria-hidden="true" ng-click="removeFromBuyFilter($index)"></span>
-                </div>
-            </div>
-
-            <!--<div class="mdl-card__supporting-text">-->
-                <div class="row list-special">
-                    <div class="col-md-3 right-border">
-                        <select class="form-control" id="buyParameters" ng-model="buyCardSelections.parameter"
-                                ng-change="changePlaceholder()" ng-options="value as key for (key, value) in buyParameterList">
-                        </select>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="buyCardSelections.operator = '<'"
-                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '<'}">
-                                    <
-                                </button>
-                            </div>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="buyCardSelections.operator = '>'"
-                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '>'}">
-                                    >
-                                </button>
-                            </div>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="buyCardSelections.operator = '='"
-                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '='}">
-                                    =
-                                </button>
-                            </div>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="buyCardSelections.operator = '<='"
-                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '<='}">
-                                    <=
-                                </button>
-                            </div>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="buyCardSelections.operator = '>='"
-                                        ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '>='}">
-                                    >=
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <input type="number" class="form-control" placeholder={{buyMinMaxPlaceholder}} ng-model="buyCardSelections.value" aria-describedby="basic-addon2">
-                        </div>
-                    </div>
-
-                    <div class="col-md-1">
-                        <span class="glyphicon glyphicon-plus glyph-icon" aria-hidden="true" ng-click="addToBuyFilter()"></span>
-                    </div>
-                <!--</div>-->
-            </div>
-
-
-            <div class="mdl-card__actions mdl-card--border card-footer">
-                <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                    <div class="btn-group" role="group">
-                        <button class="mdl-button mdl-js-button mdl-button--raised"
-                                ng-class="{'star-button-pressed': buyDojiStarPattern.isPressed && buyDojiStarPattern.value == 100}"
-                                ng-click="toggleDojiStar('buy')">
-                            Doji Star
-                        </button>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <button class="mdl-button mdl-js-button mdl-button--raised"
-                                ng-class="{'star-button-pressed': buyChillStarPattern.isPressed && buyChillStarPattern.value == 100}"
-                                ng-click="toggleChillStar('buy')">
-                            Chill star
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square" ng-show="hideSearchList">
-            <div class="mdl-card__actions card-header">
-                <h2 class="mdl-card__title-text">Sell</h2>
-            </div>
-
-            <div class="row list-special" ng-repeat="filter in sellFilterList">
-                <div class="col-md-3">
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="filter.parameter" aria-describedby="basic-addon2" disabled>
-                    </div>
-                </div>
-                <div class="col-md-2" ng-hide="filter.isInEditMode">
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="filter.operator" aria-describedby="basic-addon2" ng-disabled="!filter.isInEditMode">
-                    </div>
-                </div>
-                <div class="col-md-5" ng-show="filter.isInEditMode">
-                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="filter.operator = '<'"
-                                    ng-class="{'card-operator-btn-active' : filter.operator == '<'}">
-                                <
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="filter.operator = '>'"
-                                    ng-class="{'card-operator-btn-active' : filter.operator == '>'}">
-                                >
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="filter.operator = '='"
-                                    ng-class="{'card-operator-btn-active' : filter.operator == '='}">
-                                =
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="filter.operator = '<='"
-                                    ng-class="{'card-operator-btn-active' : filter.operator == '<='}">
-                                <=
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="filter.operator = '>='"
-                                    ng-class="{'card-operator-btn-active' : filter.operator == '>='}">
-                                >=
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4" ng-class="{'col-md-4' : !filter.isInEditMode , 'col-md-2' : filter.isInEditMode}">
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="filter.value" aria-describedby="basic-addon2" ng-disabled="!filter.isInEditMode">
-                    </div>
-                </div>
-
-
-                <div class="col-md-1" ng-hide="filter.isInEditMode">
-                    <span class="glyphicon glyphicon-pencil glyph-icon" aria-hidden="true" ng-click="editSellFilter($index)"></span>
-                </div>
-                <div class="col-md-1" ng-hide="!filter.isInEditMode">
-                    <span class="glyphicon glyphicon-ok glyph-icon" aria-hidden="true" ng-click="saveSellFilter($index)"></span>
-                </div>
-                <div class="col-md-1">
-                    <span class="glyphicon glyphicon-minus glyph-icon" aria-hidden="true" ng-click="removeFromSellFilter($index)"></span>
-                </div>
-            </div>
-
-            <!--<div class="mdl-card__supporting-text">-->
-            <div class="row list-special">
-                <div class="col-md-3 right-border">
-                    <select class="form-control" id="sellParameters" ng-model="sellCardSelections.parameter"
-                            ng-change="changePlaceholder()" ng-options="value as key for (key, value) in sellParameterList">
-                    </select>
-                </div>
-                <div class="col-md-5">
-                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="sellCardSelections.operator = '<'"
-                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '<'}">
-                                <
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="sellCardSelections.operator = '>'"
-                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '>'}">
-                                >
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="sellCardSelections.operator = '='"
-                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '='}">
-                                =
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="sellCardSelections.operator = '<='"
-                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '<='}">
-                                <=
-                            </button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="sellCardSelections.operator = '>='"
-                                    ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '>='}">
-                                >=
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="input-group">
-                        <input type="number" class="form-control" placeholder={{sellMinMaxPlaceholder}} ng-model="sellCardSelections.value" aria-describedby="basic-addon2">
-                    </div>
-                </div>
-
-                <div class="col-md-1">
-                    <span class="glyphicon glyphicon-plus glyph-icon" aria-hidden="true" ng-click="addToSellFilter()"></span>
-                </div>
-                <!--</div>-->
-            </div>
-
-
-
-
-            <div class="mdl-card__actions mdl-card--border card-footer">
-                <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                    <div class="btn-group" role="group">
-                        <button class="mdl-button mdl-js-button mdl-button--raised"
-                                ng-class="{'star-button-pressed': sellDojiStarPattern.isPressed && sellDojiStarPattern.value == -100}"
-                                ng-click="toggleDojiStar('sell')">
-                            Doji Star
-                        </button>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <button class="mdl-button mdl-js-button mdl-button--raised"
-                                ng-class="{'star-button-pressed': sellChillStarPattern.isPressed && sellChillStarPattern.value == -100}"
-                                ng-click="toggleChillStar('sell')">
-                            Chill star
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col graph-container" ng-show="hideSearchList">
-            <div class="mdl-card__actions card-header">
-                <h2 class="mdl-card__title-text">Stock Behaviour</h2>
-                <div line-chart-dir></div>
-            </div>
-        </div>
-        <div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col" ng-show="hideSearchList">
-            <div class="mdl-card__actions card-header">
-                <h2 class="mdl-card__title-text">Profit Summary</h2>
-                <div ng-repeat="log in logs1">
-                    <div>{{log}}</div>
-                </div>
-                <div>Sell: {{sellCount}} transactions</div>
-                <div>Buy: {{buyCount}} transactions</div>
-                <div>Hold: {{holdCount}} transactions</div>
-                <div>Backtesting Summary: {{backtestingSummary}} = {{backtestingPerc}}%</div>
-                <div>Stock Price Summary: {{stockSummary}}</div>
-                <div>Backtesting Gain a compared to Stock Price: {{backtestingGain}}</div>
-
+        <div class="col-md-2" ng-show="validStockSelected">
+            <div class="mdl-textfield mdl-js-textfield get-quote-btn">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="getQuote()">
+                    Get Quote
+                </button>
             </div>
         </div>
     </div>
+</div>
+
+<div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col graph-container" ng-hide="hideSearchList">
+    <div class="mdl-card__actions card-header">
+        <h2 class="mdl-card__title-text">Search Results</h2>
+
+        <div class="list-group list-special">
+            <a href="#" class="list-group-item" ng-repeat="stockName in searchListArray"
+               ng-click="setStockName()">{{stockName}}</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square" ng-show="hideSearchList">
+    <div class="mdl-card__actions card-header">
+        <h2 class="mdl-card__title-text">Buy</h2>
+    </div>
+
+    <div class="row list-special" ng-repeat="filter in buyFilterList">
+        <div class="col-md-3">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="filter.parameter" aria-describedby="basic-addon2"
+                       disabled>
+            </div>
+        </div>
+        <div class="col-md-2" ng-hide="filter.isInEditMode">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="filter.operator" aria-describedby="basic-addon2"
+                       ng-disabled="!filter.isInEditMode">
+            </div>
+        </div>
+        <div class="col-md-5" ng-show="filter.isInEditMode">
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="filter.operator = '<'"
+                            ng-class="{'card-operator-btn-active' : filter.operator == '<'}">
+                        <
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="filter.operator = '>'"
+                            ng-class="{'card-operator-btn-active' : filter.operator == '>'}">
+                        >
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="filter.operator = '='"
+                            ng-class="{'card-operator-btn-active' : filter.operator == '='}">
+                        =
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="filter.operator = '<='"
+                            ng-class="{'card-operator-btn-active' : filter.operator == '<='}">
+                        <=
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="filter.operator = '>='"
+                            ng-class="{'card-operator-btn-active' : filter.operator == '>='}">
+                        >=
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4" ng-class="{'col-md-4' : !filter.isInEditMode , 'col-md-2' : filter.isInEditMode}">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="filter.value" aria-describedby="basic-addon2"
+                       ng-disabled="!filter.isInEditMode">
+            </div>
+        </div>
+
+
+        <div class="col-md-1" ng-hide="filter.isInEditMode">
+            <span class="glyphicon glyphicon-pencil glyph-icon" aria-hidden="true"
+                  ng-click="editBuyFilter($index)"></span>
+        </div>
+        <div class="col-md-1" ng-hide="!filter.isInEditMode">
+            <span class="glyphicon glyphicon-ok glyph-icon" aria-hidden="true" ng-click="saveBuyFilter($index)"></span>
+        </div>
+        <div class="col-md-1">
+            <span class="glyphicon glyphicon-minus glyph-icon" aria-hidden="true"
+                  ng-click="removeFromBuyFilter($index)"></span>
+        </div>
+    </div>
+
+    <!--<div class="mdl-card__supporting-text">-->
+    <div class="row list-special">
+        <div class="col-md-3 right-border">
+            <select class="form-control" id="buyParameters" ng-model="buyCardSelections.parameter"
+                    ng-change="changePlaceholder()" ng-options="value as key for (key, value) in buyParameterList">
+            </select>
+        </div>
+        <div class="col-md-5">
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="buyCardSelections.operator = '<'"
+                            ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '<'}">
+                        <
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="buyCardSelections.operator = '>'"
+                            ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '>'}">
+                        >
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="buyCardSelections.operator = '='"
+                            ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '='}">
+                        =
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="buyCardSelections.operator = '<='"
+                            ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '<='}">
+                        <=
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="buyCardSelections.operator = '>='"
+                            ng-class="{'card-operator-btn-active' : buyCardSelections.operator == '>='}">
+                        >=
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group">
+                <input type="number" class="form-control" placeholder={{buyMinMaxPlaceholder}}
+                       ng-model="buyCardSelections.value" aria-describedby="basic-addon2">
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <span class="glyphicon glyphicon-plus glyph-icon" aria-hidden="true" ng-click="addToBuyFilter()"></span>
+        </div>
+        <!--</div>-->
+    </div>
+
+
+    <div class="mdl-card__actions mdl-card--border card-footer">
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+                <button class="mdl-button mdl-js-button mdl-button--raised"
+                        ng-class="{'star-button-pressed': buyDojiStarPattern.isPressed && buyDojiStarPattern.value == 100}"
+                        ng-click="toggleDojiStar('buy')">
+                    Doji Star
+                </button>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="mdl-button mdl-js-button mdl-button--raised"
+                        ng-class="{'star-button-pressed': buyChillStarPattern.isPressed && buyChillStarPattern.value == 100}"
+                        ng-click="toggleChillStar('buy')">
+                    Chill star
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col card-square" ng-show="hideSearchList">
+    <div class="mdl-card__actions card-header">
+        <h2 class="mdl-card__title-text">Sell</h2>
+    </div>
+
+    <div class="row list-special" ng-repeat="filter in sellFilterList">
+        <div class="col-md-3">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="filter.parameter" aria-describedby="basic-addon2"
+                       disabled>
+            </div>
+        </div>
+        <div class="col-md-2" ng-hide="filter.isInEditMode">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="filter.operator" aria-describedby="basic-addon2"
+                       ng-disabled="!filter.isInEditMode">
+            </div>
+        </div>
+        <div class="col-md-5" ng-show="filter.isInEditMode">
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="filter.operator = '<'"
+                            ng-class="{'card-operator-btn-active' : filter.operator == '<'}">
+                        <
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="filter.operator = '>'"
+                            ng-class="{'card-operator-btn-active' : filter.operator == '>'}">
+                        >
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="filter.operator = '='"
+                            ng-class="{'card-operator-btn-active' : filter.operator == '='}">
+                        =
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="filter.operator = '<='"
+                            ng-class="{'card-operator-btn-active' : filter.operator == '<='}">
+                        <=
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="filter.operator = '>='"
+                            ng-class="{'card-operator-btn-active' : filter.operator == '>='}">
+                        >=
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4" ng-class="{'col-md-4' : !filter.isInEditMode , 'col-md-2' : filter.isInEditMode}">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="filter.value" aria-describedby="basic-addon2"
+                       ng-disabled="!filter.isInEditMode">
+            </div>
+        </div>
+
+
+        <div class="col-md-1" ng-hide="filter.isInEditMode">
+            <span class="glyphicon glyphicon-pencil glyph-icon" aria-hidden="true"
+                  ng-click="editSellFilter($index)"></span>
+        </div>
+        <div class="col-md-1" ng-hide="!filter.isInEditMode">
+            <span class="glyphicon glyphicon-ok glyph-icon" aria-hidden="true" ng-click="saveSellFilter($index)"></span>
+        </div>
+        <div class="col-md-1">
+            <span class="glyphicon glyphicon-minus glyph-icon" aria-hidden="true"
+                  ng-click="removeFromSellFilter($index)"></span>
+        </div>
+    </div>
+
+    <!--<div class="mdl-card__supporting-text">-->
+    <div class="row list-special">
+        <div class="col-md-3 right-border">
+            <select class="form-control" id="sellParameters" ng-model="sellCardSelections.parameter"
+                    ng-change="changePlaceholder()" ng-options="value as key for (key, value) in sellParameterList">
+            </select>
+        </div>
+        <div class="col-md-5">
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="sellCardSelections.operator = '<'"
+                            ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '<'}">
+                        <
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="sellCardSelections.operator = '>'"
+                            ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '>'}">
+                        >
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="sellCardSelections.operator = '='"
+                            ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '='}">
+                        =
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="sellCardSelections.operator = '<='"
+                            ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '<='}">
+                        <=
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default"
+                            ng-click="sellCardSelections.operator = '>='"
+                            ng-class="{'card-operator-btn-active' : sellCardSelections.operator == '>='}">
+                        >=
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group">
+                <input type="number" class="form-control" placeholder={{sellMinMaxPlaceholder}}
+                       ng-model="sellCardSelections.value" aria-describedby="basic-addon2">
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <span class="glyphicon glyphicon-plus glyph-icon" aria-hidden="true" ng-click="addToSellFilter()"></span>
+        </div>
+        <!--</div>-->
+    </div>
+
+
+    <div class="mdl-card__actions mdl-card--border card-footer">
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+                <button class="mdl-button mdl-js-button mdl-button--raised"
+                        ng-class="{'star-button-pressed': sellDojiStarPattern.isPressed && sellDojiStarPattern.value == -100}"
+                        ng-click="toggleDojiStar('sell')">
+                    Doji Star
+                </button>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="mdl-button mdl-js-button mdl-button--raised"
+                        ng-class="{'star-button-pressed': sellChillStarPattern.isPressed && sellChillStarPattern.value == -100}"
+                        ng-click="toggleChillStar('sell')">
+                    Chill star
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col graph-container" ng-show="hideSearchList">
+    <div class="mdl-card__actions card-header">
+        <h2 class="mdl-card__title-text">Stock Behaviour</h2>
+
+        <div line-chart-dir></div>
+    </div>
+</div>
+<div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col" ng-show="hideSearchList">
+    <div class="mdl-card__actions card-header">
+        <h2 class="mdl-card__title-text">Profit Summary</h2>
+
+        <div class="row summary-block">
+            <div class="col-md-8">
+                <div ng-repeat="log in logs1">
+                    <div>{{log}}</div>
+                </div>
+
+                <div class="margin-top">Sell: {{sellCount}} transactions</div>
+                <div>Buy: {{buyCount}} transactions</div>
+                <div>Hold: {{holdCount}} transactions</div>
+
+                <div class="margin-top">Backtesting Summary: {{backtestingSummary}} = {{backtestingPerc}}%</div>
+                <div>Stock Price Summary: {{stockSummary}}</div>
+
+                <div class="margin-top">Backtesting Gain a compared to Stock Price: {{backtestingGain}}</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
 </main>

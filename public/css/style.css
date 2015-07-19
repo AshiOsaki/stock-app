@@ -76,3 +76,12 @@
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.18), 0 8px 16px rgba(0, 0, 0, 0.36) !important;
     background-color: rgba(158,158,158, 0.40) !important;
 }
+
+.summary-block{
+    padding: 20px;
+    color: slateblue;
+}
+
+.margin-top{
+    margin-top: 10px;
+}
