@@ -256,7 +256,6 @@ angular.module('stockAppHomeCtrlMD', []).
         $scope.sellFilterList[index].isInEditMode = true;
       };
 
-
       $scope.saveSellFilter = function (index) {
         $scope.sellFilterList[index].isInEditMode = false;
         var _filter = $scope.sellFilterList[index];
@@ -374,7 +373,8 @@ angular.module('stockAppHomeCtrlMD', []).
             },
             tooltip: {
               valueSuffix: '$'
-            }
+            },
+            id: 'dataseries'
           },{}]
         };
 
@@ -384,30 +384,31 @@ angular.module('stockAppHomeCtrlMD', []).
 
       $scope.reDrawChart = function () {
 
-        var _buyDataLabels = _createDataLabels($scope.buyFilterListData);
-        var _sellDataLabels = _createDataLabels($scope.sellFilterListData);
+        var _buyDataObj = _createDataLabels($scope.buyFilterListData, "Buy");
+        var _sellDataObj = _createDataLabels($scope.sellFilterListData, "Sell");
+        var _flagList = _createDataFlagList(_buyDataObj.dataFlagList, _sellDataObj.dataFlagList);
 
-        var criticalData = criticalDataLabels(_buyDataLabels, _sellDataLabels);
+        var criticalData = criticalDataLabels(_buyDataObj.dataLabels, _sellDataObj.dataLabels);
 
         var totalProfit = calculateProfitLoss(criticalData);
 
-        var _options = $scope.chart.series[0].options;
-        _options.dataLabels.enabled = true;
-        _options.dataLabels.formatter = function () {
-          var _index = this.point.index;
-          if (_buyDataLabels.indexOf(_index) == -1) {
-            if (_sellDataLabels.indexOf(_index) == -1) {
-              return ''
-            }
-            else {
-              return 'Sell';
-            }
-          }
-          else {
-            return 'Buy';
-          }
-        };
-        $scope.chart.series[0].update(_options);
+//        var _options = $scope.chart.series[0].options;
+//        _options.dataLabels.enabled = true;
+//        _options.dataLabels.formatter = function () {
+//          var _index = this.point.index;
+//          if (_buyDataLabels.indexOf(_index) == -1) {
+//            if (_sellDataLabels.indexOf(_index) == -1) {
+//              return ''
+//            }
+//            else {
+//              return 'Sell';
+//            }
+//          }
+//          else {
+//            return 'Buy';
+//          }
+//        };
+//        $scope.chart.series[0].update(_options);
         $scope.chart.series[1].update({
           name: 'Profit',
           data: totalProfit,
@@ -418,9 +419,11 @@ angular.module('stockAppHomeCtrlMD', []).
           }
         });
 
+//        $scope.chart.addSeries(_sellDataLabels);
+        $scope.chart.get('flagList') ? $scope.chart.get('flagList').remove() : null;
+        $scope.chart.addSeries(_flagList);
         $scope.chart.redraw();
       };
-
 
       var criticalDataLabels = function (_buyDataLabels, _sellDataLabels) {
 
@@ -574,22 +577,50 @@ angular.module('stockAppHomeCtrlMD', []).
         }
       };
 
-      var _createDataLabels = function (filterList) {
+      var _createDataLabels = function (filterList, filterListType) {
         var _dataLabels = [],
           _filterListData = filterList,
-          _keys = Object.keys(_filterListData);
+          _keys = Object.keys(_filterListData),
+          _dates = $scope.data.Date.value,
+          _dataFlagList = [],
+          _tempObj ={};
 
-        _keys.forEach(function (key, index) {
-          if (index == 0) {
-            _dataLabels = _filterListData[key];
-          }
-          else {
-            _dataLabels = _.intersection(_dataLabels, _filterListData[key]);
-          }
-        });
+          _keys.forEach(function (key, index) {
+            if (index == 0) {
+              _dataLabels = _filterListData[key];
+            }
+            else {
+              _dataLabels = _.intersection(_dataLabels, _filterListData[key]);
+            }
+          });
 
-        return _dataLabels;
+          _dataLabels.forEach(function (dataPointIndex) {
+            _tempObj = {
+              x: _dates[dataPointIndex],
+              title: filterListType,
+              color: filterListType === 'Buy' ? 'green' : 'red'
+            };
+            _dataFlagList.push(_tempObj);
+          });
+
+          return {
+            dataLabels: _dataLabels,
+            dataFlagList: _dataFlagList
+          };
+
       };
+
+      function _createDataFlagList(buyDataFlagList, sellDataFlagList){
+        var _dataFlagList = {
+          type : 'flags',
+          data : buyDataFlagList.concat(sellDataFlagList),
+          onSeries : 'dataseries',
+          shape : 'circlepin',
+          width : 16,
+          id: "flagList"
+        };
+        return _dataFlagList;
+      }
 
       $scope.toggleDojiStar = function (card) {
         var _filter;
